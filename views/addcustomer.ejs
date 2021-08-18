@@ -1,0 +1,258 @@
+<% include ./partials/navbar.ejs %>
+<div class="row mt-5">
+    <div class="col-md-6 m-auto">
+        <div class="card card-body border border-danger">
+            <h1 class="text-center mb-3">New Waitlist Customer</h1>
+                <% include ./partials/messages %>
+        
+            <form class="form" id="newcustomer" action="/waitlist/" method="POST">
+                <div class="form-group">
+                    <label for="name">First Name</label>
+                    <input 
+                        type="name"
+                        id="first_name"
+                        name="first_name"
+                        class="form-control"
+                        placeholder="Enter First Name"
+                        autocomplete="given-name" 
+                        autofocus 
+                        required
+                        value="<%= typeof name != 'undefined' ? name : '' %>"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="name">Last Name</label>
+                    <input 
+                        type="name"
+                        id="last_name"
+                        name="last_name"
+                        class="form-control"
+                        placeholder="Enter Last Name"
+                        autocomplete="family-name" 
+                        autofocus 
+                        required
+                        value="<%= typeof name != 'undefined' ? name : '' %>"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="phone">Mobile Phone</label>
+                    <input
+                        type="tel"
+                        id="phone_mobile"
+                        name="phone_mobile"
+                        class="form-control"
+                        placeholder="Enter Phone number"
+                        autofocus 
+                        required
+                        value="<%= typeof tel != 'undefined' ? tel : '' %>"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Other(optional)</label>
+                    <input
+                        type="tel"
+                        id="phone_other"
+                        name="phone_other"
+                        class="form-control"
+                        placeholder="Enter Phone number"
+                        autocomplete="tel" 
+                        autofocus
+                        value="<%= typeof tel != 'undefined' ? tel : '' %>"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input 
+                        type="address"
+                        id="address" 
+                        name="address"
+                        class="form-control"
+                        autocomplete="address" 
+                        autofocus 
+                        required
+                        value="<%= typeof address != 'undefined' ? address : '' %>"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="address2">Address 2</label>
+                    <input 
+                        type="address"
+                        id="address2" 
+                        name="address2"
+                        class="form-control"
+                        autocomplete="address-line2" 
+                        autofocus
+                        value="<%= typeof address2 != 'undefined' ? address2 : '' %>"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="city"
+                        id="city" 
+                        name="city" 
+                        class="form-control"
+                        autocomplete="city" 
+                        autofocus 
+                        required
+                        value="<%= typeof city != 'undefined' ? city : '' %>"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <select 
+                    id="state" 
+                    name="state" 
+                    class="form-control"
+                    autocomplete="state" 
+                    autofocus 
+                    required 
+                    onChange="";>
+                        <option value="" disabled selected>State...</option>
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                        <option value="AZ">Arizona</option>
+                        <option value="AR">Arkansas</option>
+                        <option value="CA">California</option>
+                        <option value="CO">Colorado</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+                        <option value="DC">District Of Columbia</option>
+                        <option value="FL">Florida</option>
+                        <option value="GA">Georgia</option>
+                        <option value="HI">Hawaii</option>
+                        <option value="ID">Idaho</option>
+                        <option value="IL">Illinois</option>
+                        <option value="IN">Indiana</option>
+                        <option value="IA">Iowa</option>
+                        <option value="KS">Kansas</option>
+                        <option value="KY">Kentucky</option>
+                        <option value="LA">Louisiana</option>
+                        <option value="ME">Maine</option>
+                        <option value="MD">Maryland</option>
+                        <option value="MA">Massachusetts</option>
+                        <option value="MI">Michigan</option>
+                        <option value="MN">Minnesota</option>
+                        <option value="MS">Mississippi</option>
+                        <option value="MO">Missouri</option>
+                        <option value="MT">Montana</option>
+                        <option value="NE">Nebraska</option>
+                        <option value="NV">Nevada</option>
+                        <option value="NH">New Hampshire</option>
+                        <option value="NJ">New Jersey</option>
+                        <option value="NM">New Mexico</option>
+                        <option value="NY">New York</option>
+                        <option value="NC">North Carolina</option>
+                        <option value="ND">North Dakota</option>
+                        <option value="OH">Ohio</option>
+                        <option value="OK">Oklahoma</option>
+                        <option value="OR">Oregon</option>
+                        <option value="PA">Pennsylvania</option>
+                        <option value="RI">Rhode Island</option>
+                        <option value="SC">South Carolina</option>
+                        <option value="SD">South Dakota</option>
+                        <option value="TN">Tennessee</option>
+                        <option value="TX">Texas</option>
+                        <option value="UT">Utah</option>
+                        <option value="VT">Vermont</option>
+                        <option value="VA">Virginia</option>
+                        <option value="WA">Washington</option>
+                        <option value="WV">West Virginia</option>
+                        <option value="WI">Wisconsin</option>
+                        <option value="WY">Wyoming</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="zip"></label>Zip Code</label>
+                    <input 
+                        type="zip" 
+                        id="zip" 
+                        name="zip" 
+                        class="form-control"
+                        autocomplete="zipcode"
+                        autofocus
+                        required
+                        value="<%= typeof zip != 'undefined' ? zip : '' %>"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input 
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="form-control"
+                        placeholder="Enter Email"
+                        autocomplete="email" 
+                        autofocus 
+                        required
+                        value="<%= typeof email != 'undefined' ? email : '' %>"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="pets">Pet names and Breeds(Seperate each with a comma)</label>
+                    <input 
+                        type="pets"
+                        id="pets"
+                        name="pets"
+                        class="form-control"
+                        placeholder="Enter Pet Names 'Spot-Beagle, Jimmy-Jack Russel'"
+                        autofocus   
+                        autocomplete="pets" 
+                        required
+                        value="<%= typeof pets != 'undefined' ? pets : '' %>"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="preferred_days">Preferred Days</label>
+                    <input 
+                        type="preferred_days"
+                        id="preferred_days" 
+                        name="preferred_days"
+                        class="form-control"
+                        autofocus 
+                        autocomplete="preferred_days" 
+                        required
+                        value="<%= typeof preferred_days != 'undefined' ? preferred_days : '' %>"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="deleted_at">Date Removed from Waitlist</label>
+                    <input 
+                        type="deleted_at"
+                        id="deleted_at" 
+                        name="deleted_at" 
+                        class="form-control"
+                        autocomplete="deleted_at" 
+                        autofocus
+                        value="<%= typeof deleted_at != 'undefined' ? deleted_at : '' %>"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="current_facility">Current Waitlist</label>
+                    <select 
+                        type="current_facility"
+                        id="current_facility" 
+                        name="current_facility" 
+                        class="form-control"
+                        autocomplete="current_facility" 
+                        autofocus
+                        required
+                        onChange="";>
+                            <option value="" disabled selected>Location...</option>
+                            <option value="TPB Trailer">TPB Trailer</option>
+                            <option value="TPB Van">TPB Van</option>
+                            <option value="TPB Kennel">TPB Kennel</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Add</button>
+                <button class="btn btn-danger btn-block" href="/waitlist"><i class="fas fa-trash-alt"></i> Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script 
+    src="https://code.jquery.com/jquery-3.6.0.js"  
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" 
+    crossorigin="anonymous">
+</script>
+<script src="../js/addcustomerpage.js"></script>
