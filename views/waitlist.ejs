@@ -5,14 +5,14 @@
             <h1 class="text-center mb-6">Current Waitlist</h1>
             <% include ./partials/messages %>
             <div class="card card-body border border-danger">
-              <form class="d-flex col-md-8 m-auto" id="search-form" >
-                <input class="form-control me-sm-2 search-input" id="search-id" type="text" placeholder="Search..." data-table="customers-list">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
-              </form>
+                <form class="d-flex col-md-8 m-auto" id="search-form" >
+                    <input class="form-control me-sm-2 search-input" id="search-id" type="text" placeholder="Search..." data-table="customers-list">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
+                </form>
             </div>
             <div>
-              <input type="checkbox" name="prolang" value="false"> Show Deleted Rows <br/>
-              <span>Count: </span>
+                <input type="checkbox" name="prolang" value="false"> Show Deleted Rows <br/>
+                <span>Count: </span>
             </div>
             <div style="height: 600px;overflow: scroll;">
             <table class="table table-hover customers-list" id="wltable">

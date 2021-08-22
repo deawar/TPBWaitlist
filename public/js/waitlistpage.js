@@ -1,6 +1,6 @@
 $(document).ready(function() {
     const waitlist = [];
-    const rowtoPatch = [];
+    const rowtoEdit = [];
     const rowtoDel = [];
 
     
@@ -38,6 +38,29 @@ $(document).ready(function() {
 
         }
     }
+    // Edit row in Waitlist
+    function updateRow(rowToBeEdited, waitlistId) {
+        stringrowTobeEdited = JSON.stringify(rowToBeEdited);
+        let url = `/waitlist/update/${waitlistId}`;
+        fetch(url, {
+            method: "PATCH",
+            headers: { 'Content-Type': 'application/json' },
+            body: stringrowTobeEdited
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("HTTP error " + response.status);
+            }
+            window.location.href = window.location.href;
+        })
+        .catch(error => {
+            console.log(error);
+            response.status(500).json({
+                error:err
+            });
+        });
+    } 
+
     // Delete from Waitlist
     function markDeleted(delrow, waitlistId) {
         console.log('searchId:', waitlistId)
@@ -152,7 +175,44 @@ $(document).ready(function() {
 
             // Save Changes Button
             $('#savechgBtn').click(function (eventObject) {
-                console.log(`Save Changes Button on ID:${searchId} Clicked`)
+                console.log(`Save Changes Button on ID:${searchId} Clicked`);
+                //rowtoEdit = [];
+                let first_name = FormObject.elements['first_name'].value;
+                let last_name = FormObject.elements['last_name'].value;
+                let customer = first_name + ' ' + last_name;
+                console.log ('New Customer name:', customer);
+                let phone_mobile = FormObject.elements['phone_mobile'].value;
+                let phone_other = FormObject.elements['phone_other'].value;
+                let address = FormObject.elements['address'].value;
+                let address2 = FormObject.elements['address2'].value;
+                let city = FormObject.elements['city'].value;
+                let state = FormObject.elements['state'].value;
+                let zip = FormObject.elements['zip'].value;
+                let email = FormObject.elements['email'].value;
+                let pets = FormObject.elements['pets'].value;
+                let deleted_at = FormObject.elements['deleted_at'].value;
+                let location = FormObject.elements['current_facility'].value;
+
+
+                let editrow = { 
+                    "propName": "customer", "value": customer,
+                    // "propName": "phone_mobile", "value": phone_mobile,
+                    // "propName": "phone_other", "value": phone_other,
+                    // "propName": "address", "value": address,
+                    // "propName": "address2", "value": address2,
+                    // "propName": "city", "value": city,
+                    // "propName": "state", "value": state,
+                    // "propName": "zip", "value": zip,
+                    // "propName": "email", "value": email,
+                    // "propName": "pets", "value": pets,
+                    // "propName": "deleted_at", "value": deleted_at,
+                    // "propName": "location", "value": location
+                }
+                console.log("editrow object:", editrow);
+                rowtoEdit.push(editrow);
+                console.log("Array to edit row:", editrow);
+                updateRow(rowtoEdit, searchId)
+
             })
             // Delete Button
             $('#delBtn').click(function (eventObject) {
