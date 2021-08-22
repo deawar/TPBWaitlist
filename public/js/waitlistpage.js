@@ -3,6 +3,26 @@ $(document).ready(function() {
     const rowtoEdit = [];
     const rowtoDel = [];
 
+    //Fx to display timestamps the way we want
+    function displayDateTime(date, AddorDel) {
+        if(AddorDel){ //do if true
+            if(date === undefined || date === null) {
+                return date = " ";
+            }
+            let timestamp = date.split("T");
+            usdate = timestamp[0].replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$2-$3-$1');
+            return usdate;
+        }
+        if(date === undefined || date === null) {
+            return date = " ";
+        }
+        let timestamp = date.split("T");
+        console.log("deleted_at:", date)
+        let dateDeleted = timestamp[0].replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$2-$3-$1');
+        let timeDeleted = timestamp[1].replace(/(\d{2})\:(\d{2})\:(\d{2}).*/,'$1:$2:$3');
+        newDeleted_at = timeDeleted + " " + dateDeleted;
+        return newDeleted_at;
+    }   
     
     // Build the waitlist html table
     function buildWaitlistTable(waitlist) {
@@ -14,8 +34,10 @@ $(document).ready(function() {
             const tr = "<tr>";
             let id = waitlist.waitlists[i]["id"];
             let date = waitlist.waitlists[i]["date"];
-            let inputDate = date.split("T");
-            usdate = inputDate[0].replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$2-$3-$1')
+            let dateAdded = true;
+            //let inputDate = date.split("T");
+            //usdate = inputDate[0].replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$2-$3-$1')
+            usdate = displayDateTime (date, dateAdded)
             let action_btn = `<button class='btn btn-outline-warning btn-sm mybtn'id='editDelete${[i]}' data-id=${id} data-toggle='modal' data-target='editDeleteModal'><i class="glyphicon glyphicon-pencil"></i>Edit/Delete</button>`;
             const td1 = "<td>"+action_btn+"</td>";
             //let td2 = "<td>"+waitlist.waitlists[i]["date"]+"</td>";
@@ -31,7 +53,11 @@ $(document).ready(function() {
             let td11 = "<td>"+waitlist.waitlists[i]["phone_other"]+"</td>";
             let td12 = "<td>"+waitlist.waitlists[i]["location"]+"</td>";
             let td13 = "<td>"+waitlist.waitlists[i]["preferred_days"]+"</td>";
-            let td14 = "<td>"+waitlist.waitlists[i]["deleted_at"]+"</td>";
+            let delatDate = waitlist.waitlists[i]["deleted_at"];
+            let dateDeleted = false;
+            delDate = displayDateTime (delatDate, dateDeleted)
+            // let td14 = "<td>"+waitlist.waitlists[i]["deleted_at"]+"</td>";
+            let td14 = "<td>" + delDate + "</td>";
             let td15 = "<td>"+waitlist.waitlists[i]["email"]+"</td></tr>";
 
             $("#wltable").append(tr+td1+td2+td3+td4+td5+td6+td7+td8+td9+td10+td11+td12+td13+td14+td15); 
