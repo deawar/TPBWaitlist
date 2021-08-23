@@ -17,10 +17,10 @@ $(document).ready(function() {
             return date = " ";
         }
         let timestamp = date.split("T");
-        console.log("deleted_at:", date)
+        // console.log("deleted_at:", date) // TODO: remove console.log
         let dateDeleted = timestamp[0].replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$2-$3-$1');
         let timeDeleted = timestamp[1].replace(/(\d{2})\:(\d{2})\:(\d{2}).*/,'$1:$2:$3');
-        newDeleted_at = timeDeleted + " " + dateDeleted;
+        newDeleted_at = "Time: "+ timeDeleted + " " +  "Date: " + dateDeleted;
         return newDeleted_at;
     }   
     
@@ -64,6 +64,7 @@ $(document).ready(function() {
 
         }
     }
+
     // Edit row in Waitlist
     function updateRow(rowToBeEdited, waitlistId) {
         stringrowTobeEdited = JSON.stringify(rowToBeEdited);
@@ -256,6 +257,9 @@ $(document).ready(function() {
             
         });
 
+        // Show rows based on checkbox
+        //showDeletedRows();
+
         // Modal Close button
         $('#editDeleteModal').on('click', 'button.close', function (eventObject) {
             $('#editDeleteModal').modal('hide');
@@ -265,4 +269,46 @@ $(document).ready(function() {
         });
 
     });
+
+    //Fx to filter by checkbox
+    $("#showDeletedRows").click(function() { 
+        let table, filter, rows, cells, deleted_at, name;
+        table = document.getElementById('wltable');
+        let mycheckBox=$("#showDeletedRows");
+        //checkBox=document.getElementById('showDeletedRows');
+        console.log('mycheckBox.value:', mycheckBox.val())
+        console.log('mycheckBox.checked:', mycheckBox)
+        rows = table.getElementsByTagName("tr");
+        filter = mycheckBox;
+        if($(mycheckBox).prop("checked") === true) {
+            $(mycheckBox).attr("checked", true);
+            alert('Box is checked show all rows');
+        } 
+        if($(mycheckBox).prop("checked") === false){
+            $("#showDeletedRows").attr("checked", false);
+            alert('Box is NOT checked show only non-deleted rows');
+        }
+        console.log('Line 288 mycheckBox.value:', mycheckBox.val())
+        let index = 0;
+        for (let row of rows) {
+            if (index > 1) {
+                cells = row.getElementsByTagName("td");
+                name = cells[0].innerText;
+                deleted_at = cells[2].innerText;
+                if (filter == true) {
+                    if (name === rows[index - 1].getElementsByTagName("td")[0].innerText && deleted_at === rows[index - 1].getElementsByTagName("td")[2].innerText) {
+                        row.style.display = "none"; // hide this row
+                    }
+                    else { // if secret or modelrange are not equal
+                        row.style.display = "table-row"; // show this row
+                    }
+                }
+                else {
+                    row.style.display = "table-row"; // show this row
+                }
+            }
+            index++;
+        }
+    })
+
 });
