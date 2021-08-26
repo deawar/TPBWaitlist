@@ -272,43 +272,49 @@ $(document).ready(function() {
 
     //Fx to filter by checkbox
     $("#showDeletedRows").click(function() { 
-        let table, filter, rows, cells, deleted_at, name;
+        let table, filter, rows, cells, deleted_at;
         table = document.getElementById('wltable');
         let mycheckBox=$("#showDeletedRows");
+        let shown = 0;
         //checkBox=document.getElementById('showDeletedRows');
         console.log('mycheckBox.value:', mycheckBox.val())
         console.log('mycheckBox.checked:', mycheckBox)
         rows = table.getElementsByTagName("tr");
-        filter = mycheckBox;
+        filter = !undefined;
+        if($(mycheckBox).prop("checked") === false){
+            $("#showDeletedRows").attr("checked", false);
+            alert('Box is NOT checked show only non-deleted rows');
+            console.log('Line 288 mycheckBox.value:', mycheckBox.val())
+            let index = 0;
+            for (let row of rows) {
+                if (index > 0) {
+                    cells = row.getElementsByTagName("td");
+                    //name = cells[2].innerText;
+                    deleted_at = cells[13].innerText;
+                    console.log("length of deleted_at:",deleted_at.length);
+                    console.log("deleted_at:",deleted_at);
+                    //if (filter == true) {
+                    if (deleted_at.length > 8) {
+                        console.log("rows[index - 1].getElementByTagName('td')[13].innerText", rows[index].getElementsByTagName("td")[13].innerText);
+                        console.log("rows[index - 1]:", rows[index])
+                        console.log("index - 1]:", index)
+                        console.log("======================> should be hiding this row.");
+                        row.style.display = "none"; // hide this row
+                        
+                    }
+                    else {
+                        row.style.display = "table-row"; // show this row
+                        shown ++;
+                        $("#count").html("Count: " + shown);
+                    }
+                }
+                index++;
+            }
+        }
         if($(mycheckBox).prop("checked") === true) {
             $(mycheckBox).attr("checked", true);
             alert('Box is checked show all rows');
         } 
-        if($(mycheckBox).prop("checked") === false){
-            $("#showDeletedRows").attr("checked", false);
-            alert('Box is NOT checked show only non-deleted rows');
-        }
-        console.log('Line 288 mycheckBox.value:', mycheckBox.val())
-        let index = 0;
-        for (let row of rows) {
-            if (index > 1) {
-                cells = row.getElementsByTagName("td");
-                name = cells[0].innerText;
-                deleted_at = cells[2].innerText;
-                if (filter == true) {
-                    if (name === rows[index - 1].getElementsByTagName("td")[0].innerText && deleted_at === rows[index - 1].getElementsByTagName("td")[2].innerText) {
-                        row.style.display = "none"; // hide this row
-                    }
-                    else { // if secret or modelrange are not equal
-                        row.style.display = "table-row"; // show this row
-                    }
-                }
-                else {
-                    row.style.display = "table-row"; // show this row
-                }
-            }
-            index++;
-        }
     })
 
 });
