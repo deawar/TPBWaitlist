@@ -185,7 +185,7 @@ router.get('/:waitlistId', ensureAuthenticated, (req, res, next) => {
 });
 
 // Edit an entry using ID must use [{ "propName": "location", "value": "TPB Trailer" }]
-router.patch('/update/:waitlistId', (req, res)=> {
+router.patch('/update/:waitlistId', ensureAuthenticated,  (req, res)=> {
     const id = req.params.waitlistId;
     console.log('in PATCH-id:',id)
     console.log('req.body:',req.body)
@@ -197,7 +197,7 @@ router.patch('/update/:waitlistId', (req, res)=> {
     .exec()
     .then(result => {
         console.log('what is result:',result);
-        req.flash('success_msg', `Row id:${id} marked as Deleted`);
+        req.flash('success_msg', `Row id:${id} operation marked as completed`);
         res.render('waitlist', {
             user: req.user
             })
@@ -225,15 +225,20 @@ router.delete('/delete/:waitlistId', ensureAuthenticated, (req, res, next) => {
     Waitlist.remove({ _id:id })
     .exec()
     .then(result => {
+        
         req.flash('success_msg', `Row id:${id} Deleted, as in, Gone Permanently...`);
-        res.status(200).json({
-            message: 'Waitlist Item Deleted!', 
-            request: { 
-                type: 'POST', 
-                url: `http://${hostname}:${PORT}/waitlist/`,
-                body: { first_name: 'String', last_name: 'String' }
-            }
-        });
+        res.render('waitlist', {
+            user: req.user
+        })
+        // req.flash('success_msg', `Row id:${id} Deleted, as in, Gone Permanently...`);
+        // res.status(200).json({
+        //     message: 'Waitlist Item Deleted!', 
+        //     request: { 
+        //         type: 'POST', 
+        //         url: `http://${hostname}:${PORT}/waitlist/`,
+        //         body: { first_name: 'String', last_name: 'String' }
+        //     }
+        // });
     })
     .catch(err => {
         console.log(err)
