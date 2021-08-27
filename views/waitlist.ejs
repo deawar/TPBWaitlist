@@ -42,7 +42,7 @@
 
         </div>
     </div>
-<!-- Modal -->
+<!-- Edit/Delete Modal -->
 <div class="modal hide fade in" id="editDeleteModal" tabindex="-1" role="dialog" aria-labelledby="editDeleteModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -56,28 +56,14 @@
           <!-- Form for editing Row -->
           <form class="form" id="editCustomer" action="/waitlist/update/" method="PATCH">
             <div class="form-group">
-                <label for="name">First Name</label>
+                <label for="name">Customer Name</label>
                 <input 
                     type="name"
-                    id="first_name"
-                    name="first_name"
+                    id="customer"
+                    name="customer"
                     class="form-control"
-                    placeholder="Enter First Name"
+                    placeholder="Edit Name"
                     autocomplete="given-name" 
-                    autofocus 
-                    required
-                    value="<%= typeof name != 'undefined' ? name : '' %>"
-                />
-            </div>
-            <div class="form-group">
-                <label for="name">Last Name</label>
-                <input 
-                    type="name"
-                    id="last_name"
-                    name="last_name"
-                    class="form-control"
-                    placeholder="Enter Last Name"
-                    autocomplete="family-name" 
                     autofocus 
                     required
                     value="<%= typeof name != 'undefined' ? name : '' %>"
@@ -277,13 +263,13 @@
                 />
             </div>
             <div class="form-group">
-                <label for="current_facility">Current Waitlist</label>
+                <label for="location">Current Location</label>
                 <select 
-                    type="current_facility"
-                    id="current_facility" 
-                    name="current_facility" 
+                    type="location"
+                    id="location" 
+                    name="location" 
                     class="form-control"
-                    autocomplete="current_facility" 
+                    autocomplete="location" 
                     autofocus
                     required
                     onChange="";>

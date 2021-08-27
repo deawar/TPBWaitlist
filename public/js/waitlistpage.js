@@ -136,13 +136,10 @@ $(document).ready(function() {
             let editIndex = waitlist.waitlists.findIndex(x => x.id === searchId);
             console.log('num:', editIndex); // TODO: remove console.log
             console.log("ID was found and returned this element:", waitlist.waitlists[editIndex].customer) // TODO: remove console.log
-            let splitName = waitlist.waitlists[editIndex].customer.split(' ')
-            let first_name = splitName[0];
-            let last_name = splitName[1];
             FormObject = document.forms['editCustomer']; //FIXME: change from element name to for each index with if then to not include <button> elements
             console.log('number of form elements:', FormObject.length); //FIXME: Source: https://www.javascript-coder.com/javascript-form/javascript-get-all-form-objects/
-            FormObject.elements['first_name'].value = first_name;
-            FormObject.elements['last_name'].value = last_name;
+            FormObject.elements['customer'].value = waitlist.waitlists[editIndex].customer;
+            //FormObject.elements['last_name'].value = last_name;
             FormObject.elements['phone_mobile'].value = waitlist.waitlists[editIndex].phone_mobile;
             if (waitlist.waitlists[editIndex].phone_other === undefined) {
                 FormObject.elements['phone_other'].value = "";
@@ -195,18 +192,18 @@ $(document).ready(function() {
                 FormObject.elements['deleted_at'].value = waitlist.waitlists[editIndex].deleted_at;
             };
             if (waitlist.waitlists[editIndex].location === undefined) {
-                FormObject.elements['current_facility'].value = "";
+                FormObject.elements['location'].value = "";
             } else {
-                FormObject.elements['current_facility'].value = waitlist.waitlists[editIndex].location;
+                FormObject.elements['location'].value = waitlist.waitlists[editIndex].location;
             };
 
             // Save Changes Button
             $('#savechgBtn').click(function (eventObject) {
                 console.log(`Save Changes Button on ID:${searchId} Clicked`);
                 //rowtoEdit = [];
-                let first_name = FormObject.elements['first_name'].value;
-                let last_name = FormObject.elements['last_name'].value;
-                let customer = first_name + ' ' + last_name;
+                let customer = FormObject.elements['customer'].value;
+                //let last_name = FormObject.elements['last_name'].value;
+                //let customer = first_name + ' ' + last_name;
                 console.log ('New Customer name:', customer);
                 let phone_mobile = FormObject.elements['phone_mobile'].value;
                 let phone_other = FormObject.elements['phone_other'].value;
@@ -218,27 +215,47 @@ $(document).ready(function() {
                 let email = FormObject.elements['email'].value;
                 let pets = FormObject.elements['pets'].value;
                 let deleted_at = FormObject.elements['deleted_at'].value;
-                let location = FormObject.elements['current_facility'].value;
+                let location = FormObject.elements['location'].value;
 
-
-                let editrow = { 
-                    "propName": "customer", "value": customer,
-                    // "propName": "phone_mobile", "value": phone_mobile,
-                    // "propName": "phone_other", "value": phone_other,
-                    // "propName": "address", "value": address,
-                    // "propName": "address2", "value": address2,
-                    "propName": "city", "value": city,
-                    "propName": "state", "value": state,
-                    // "propName": "zip", "value": zip,
-                    // "propName": "email", "value": email,
-                    // "propName": "pets", "value": pets,
-                    // "propName": "deleted_at", "value": deleted_at,
-                    // "propName": "location", "value": location
+                function createJSON() {
+                    let rowEdit = [];
+                    $("input[class=form-control]").each(function() {
+                        let propName = $(this).attr("id");
+                        let value = $(this).val();
+                        item = {}
+                        item ["propName"] = propName;
+                        item ["value"] = value;
+                        console.log("items pushed to array:", item);
+                        console.log("propName pushed to array:", propName);
+                        console.log("value pushed to array:", value);
+                        
+                        rowEdit.push(item);
+                        console.log("array rowEdit contents:", rowEdit)
+                    });
+                    console.log("rowEdit:", rowEdit);
+                    return rowEdit;
                 }
-                console.log("editrow object:", editrow);
-                rowtoEdit.push(editrow);
-                console.log("Array to edit row:", editrow);
-                updateRow(rowtoEdit, searchId)
+                    // let editrow = { 
+                    //     "propName": "customer", "value": customer,
+                    //     "propName": "phone_mobile", "value": phone_mobile,
+                    //     "propName": "phone_other", "value": phone_other,
+                    //     "propName": "address", "value": address,
+                    //     "propName": "address2", "value": address2,
+                    //     "propName": "city", "value": city,
+                    //     "propName": "state", "value": state,
+                    //     "propName": "zip", "value": zip,
+                    //     "propName": "email", "value": email,
+                    //     "propName": "pets", "value": pets,
+                    //     "propName": "deleted_at", "value": deleted_at,
+                    //     "propName": "location", "value": location
+                    // }
+                    // console.log("editrow object:", editrow);
+                    // rowtoEdit.push(editrow);
+                    // console.log("Array to edit row:", editrow);
+                    
+                rowToEdit = createJSON()  
+                console.log("Before updateRow call rowToEdit:", rowToEdit);
+                updateRow(rowToEdit, searchId)
 
             })
             // Delete Button
@@ -267,7 +284,9 @@ $(document).ready(function() {
         $('#btnclose').click(function (eventObject) {
             $('#editDeleteModal').modal('hide');
         });
-
+        $('#btnclose').click(function (eventObject) {
+            $('#alertMessage')
+        })
     });
 
     //Fx to filter by checkbox
