@@ -24,4 +24,18 @@ router.get('/addcustomer', ensureAuthenticated, (req, res) =>
   }) 
 );
 
+// // Maps Page  ensureAuthenticated, 
+// router.get('/maps', ensureAuthenticated, (req, res) =>
+//     res.render('map', {
+//     user: req.user
+//     })
+
+//     .catch(err =>  {
+//         console.log(err);
+//         res.status(500).json({
+//             error: err
+//         });
+//     })
+// );
+
 module.exports = router;
