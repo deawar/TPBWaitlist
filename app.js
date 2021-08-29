@@ -112,6 +112,7 @@ app.use(function(req, res, next) {
 
 // Routes
 app.use('/', require('./routes/index.js'));
+app.use('/maps', require('./routes/maps.js'));
 app.use('/users', require('./routes/users.js'));
 app.use('/waitlist', require('./routes/waitlist.js'));
 
