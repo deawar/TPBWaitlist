@@ -140,7 +140,8 @@
                 class="form-control"
                 autocomplete="state" 
                 autofocus 
-                required 
+                required
+                value="<%= typeof state != 'undefined' ? state : '' %>" 
                 onChange="";>
                     <option value="" disabled selected>State...</option>
                     <option value="AL">Alabama</option>

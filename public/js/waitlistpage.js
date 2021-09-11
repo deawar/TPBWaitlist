@@ -204,13 +204,13 @@ $(document).ready(function() {
                 let customer = FormObject.elements['customer'].value;
                 //let last_name = FormObject.elements['last_name'].value;
                 //let customer = first_name + ' ' + last_name;
-                console.log ('New Customer name:', customer);
                 let phone_mobile = FormObject.elements['phone_mobile'].value;
                 let phone_other = FormObject.elements['phone_other'].value;
                 let address = FormObject.elements['address'].value;
                 let address2 = FormObject.elements['address2'].value;
                 let city = FormObject.elements['city'].value;
                 let state = FormObject.elements['state'].value;
+                console.log ('New State:',state);
                 let zip = FormObject.elements['zip'].value;
                 let email = FormObject.elements['email'].value;
                 let pets = FormObject.elements['pets'].value;
@@ -219,7 +219,8 @@ $(document).ready(function() {
 
                 function createJSON() {
                     let rowEdit = [];
-                    $("input[class=form-control]").each(function() {
+                    $("#editCustomer *").filter(':input').each(function() {
+                    //$("input[class=form-control]").each(function() {
                         let propName = $(this).attr("id");
                         let value = $(this).val();
                         item = {}

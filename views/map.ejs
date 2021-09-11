@@ -2,26 +2,39 @@
 <head>
     <meta charset="UTF-8">
     <title>OSM and Leaflet</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-geosearch@3.5.0/assets/css/leaflet.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+    <style type="text/css">
+        /* html, body { width:100%;padding:0;margin:0; } */
+        .container { width:95%;max-width:980px;padding:1% 2%;margin:0 auto }
+        #lat, #lon { text-align:right }
+        #map { width:100%;height:50%;padding:5px;margin-top:5px; }
+        .address { cursor:pointer }
+        .address:hover { color:#AA0000;text-decoration:underline }
+        </style>
 </head>
 <body>
-    <div id = "map" style = "width: 900px; height: 580px">
+    <b>Coordinates</b>
+    <form>
+    <input type="text" name="lat" id="lat" size=12 value="">
+    <input type="text" name="lon" id="lon" size=12 value="">
+    </form>
+
+    <b>Address Lookup</b>
+    <div id="search">
+    <input type="text" name="addr" value="" id="addr" size="58" />
+    <button type="button" onclick="addr_search();">Search</button>
+    <div id="results"></div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        // Creating map options
-        var mapOptions = {
-        center: [17.385044, 78.486671],
-        zoom: 10
-        }
-        
-        // Creating a map object
-        var map = new L.map('map', mapOptions);
-        
-        // Creating a Layer object
-        var layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-        
-        // Adding layer to the map
-        map.addLayer(layer);
-    </script>
+
+    <br />
+
+    <div id = "map" style = "width: 100%; height: 580px">
+    <!-- <div id = "map"> -->
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-geosearch@3.5.0/dist/geosearch.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+
+    <script src="../js/maps.js"></script>
 </body>
