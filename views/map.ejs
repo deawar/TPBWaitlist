@@ -26,12 +26,12 @@
 
     <!-- Load ArcGIS REST JS from CDN -->
     <script src="https://unpkg.com/@esri/arcgis-rest-request@3.0.0/dist/umd/request.umd.js"></script>
-    <script src="https://unpkg.com/@esri/arcgis-rest-routing@3.0.0/dist/umd/routing.umd.js"></script>
     <script src="https://unpkg.com/@esri/arcgis-rest-auth@3.0.0/dist/umd/auth.umd.js"></script>
-    
+    <link rel="stylesheet" href="https://js.arcgis.com/4.20/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.20/"></script>
     <style type="text/css">
         /* html, body { width:100%;padding:0;margin:0; } */
-        .container { width:95%;max-width:980px;padding:1% 2%;margin:0 auto }
+        .container { width:95%;padding:1% 2%;margin:0 auto }
         #lat, #lon { text-align:right }
         #map { 
             width:100%;
@@ -69,6 +69,7 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/leaflet-geosearch@3.5.0/dist/geosearch.min.js"></script> -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 
-    <script src="../js/serviceArea.js"></script>
+    <script src="../js/serviceAreaSearch.js"></script>
     <!-- <script src="../js/ArcGIS.js"></script> -->
 </body>
+<% include ./partials/footer.ejs %>

@@ -1,6 +1,6 @@
 const apiKey = "AAPKb4a6ea84516a4efba14c236d8f3177fehN7FDSaoVfKQTpy_yHeUIZylKtG_AZNOX623vQN3jJaWAQuNlrFUk5ivmHUo1jbO";
 const basemapEnum = "ArcGIS:Navigation";
-
+const currentFacility = "33.82017702602581, -83.84221905330062";
 const map = L.map('map', {
     minZoom: 2
 }).setView([33.82017702602581, -83.84221905330062], 13); // 2989 Old Broadnax Mill Rd
@@ -34,7 +34,7 @@ map.on("click", (e) => {
     // Make the API request
     arcgisRest
         .serviceArea({
-            endpoint: "https://route-api.arcgis.com/arcgis/rest/services/World/ServiceAreas/NAServer/ServiceArea_World/solveServiceArea",
+            endpoint: "https://route-api.arcgis.com/arcgis/rest/services/World/ServiceAreas/NAServer/ServiceArea_World/solveServiceArea?facilites=currentFacility",
             authentication,
             facilities: [[e.latlng.lng, e.latlng.lat]]
         })
