@@ -8,7 +8,7 @@
     "dev": "nodemon app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Dean Warren",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.17.2",
+    "leaflet-geosearch": "^3.5.0",
     "memorystore": "^1.6.6",
     "mongodb": "^4.1.0",
     "mongoose": "^5.13.7",
