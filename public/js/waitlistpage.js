@@ -3,6 +3,39 @@ $(document).ready(function() {
     const rowtoEdit = [];
     const rowtoDel = [];
 
+    // Sourced from https://discourse.webflow.com/t/auto-detecting-city-from-zip-code-entry-in-a-form-field/156760
+    $("#zip").keyup(function() {
+        let zip_in = $(this);
+        let zip_box = $('#zipbox');
+        console.log('Zip Code after zip_in:', zip_in.val())
+        if (zip_in.val().length < 5) {
+            zip_box.removeClass('error success');
+        } else if (zip_in.val().length > 5) {
+            zip_box.addClass('error').removeClass('success');
+        } else if(zip_in.val().length === 5) {
+            
+            // Make HTTP request
+            $.ajax({
+                url: "https://api.zippopotam.us/us/" + zip_in.val(),
+                cache: false,
+                dataType: "json",
+                type: "GET",
+                success: function(result, success) {
+                    // US Zip Code Records Officially Map to only 1 Primary Location
+                    places = result['places'][0];
+                    console.log('places:',places);
+                    $("#city").val(places['place name']);
+                    //$("#state").val(places['state']);
+                    $("#state").val(places['state abbreviation']);
+                    zip_box.addClass('success').removeClass('error');
+                },
+                error: function(result, success) {
+                    zip_box.removeClass('success').addClass('error');
+                }
+            });
+        }
+    });
+
     //Fx to display timestamps the way we want
     function displayDateTime(date, AddorDel) {
         if(AddorDel){ //do if true
@@ -236,23 +269,6 @@ $(document).ready(function() {
                     console.log("rowEdit:", rowEdit);
                     return rowEdit;
                 }
-                    // let editrow = { 
-                    //     "propName": "customer", "value": customer,
-                    //     "propName": "phone_mobile", "value": phone_mobile,
-                    //     "propName": "phone_other", "value": phone_other,
-                    //     "propName": "address", "value": address,
-                    //     "propName": "address2", "value": address2,
-                    //     "propName": "city", "value": city,
-                    //     "propName": "state", "value": state,
-                    //     "propName": "zip", "value": zip,
-                    //     "propName": "email", "value": email,
-                    //     "propName": "pets", "value": pets,
-                    //     "propName": "deleted_at", "value": deleted_at,
-                    //     "propName": "location", "value": location
-                    // }
-                    // console.log("editrow object:", editrow);
-                    // rowtoEdit.push(editrow);
-                    // console.log("Array to edit row:", editrow);
                     
                 rowToEdit = createJSON()  
                 console.log("Before updateRow call rowToEdit:", rowToEdit);
