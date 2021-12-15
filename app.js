@@ -114,6 +114,8 @@ app.use(function(req, res, next) {
 app.use('/', require('./routes/index.js'));
 app.use('/maps', require('./routes/maps.js'));
 app.use('/users', require('./routes/users.js'));
+app.use('/send', require('./routes/users.js'));
+app.use('/verify', require('./routes/users.js'));
 app.use('/waitlist', require('./routes/waitlist.js'));
 
 const PORT = process.env.PORT || 5000;

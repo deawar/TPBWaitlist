@@ -3,6 +3,39 @@ $(document).ready(function() {
     const rowtoEdit = [];
     const rowtoDel = [];
 
+    // Sourced from https://discourse.webflow.com/t/auto-detecting-city-from-zip-code-entry-in-a-form-field/156760
+    $("#zip").keyup(function() {
+        let zip_in = $(this);
+        let zip_box = $('#zipbox');
+        console.log('Zip Code after zip_in:', zip_in.val())
+        if (zip_in.val().length < 5) {
+            zip_box.removeClass('error success');
+        } else if (zip_in.val().length > 5) {
+            zip_box.addClass('error').removeClass('success');
+        } else if(zip_in.val().length === 5) {
+            
+            // Make HTTP request
+            $.ajax({
+                url: "https://api.zippopotam.us/us/" + zip_in.val(),
+                cache: false,
+                dataType: "json",
+                type: "GET",
+                success: function(result, success) {
+                    // US Zip Code Records Officially Map to only 1 Primary Location
+                    places = result['places'][0];
+                    console.log('places:',places);
+                    $("#city").val(places['place name']);
+                    //$("#state").val(places['state']);
+                    $("#state").val(places['state abbreviation']);
+                    zip_box.addClass('success').removeClass('error');
+                },
+                error: function(result, success) {
+                    zip_box.removeClass('success').addClass('error');
+                }
+            });
+        }
+    });
+
     //Fx to display timestamps the way we want
     function displayDateTime(date, AddorDel) {
         if(AddorDel){ //do if true
@@ -27,6 +60,7 @@ $(document).ready(function() {
     // Build the waitlist html table
     function buildWaitlistTable(waitlist) {
         let tbl=$("<table/>").attr("id","wltable");
+        let shown = 0; // Current number of rows displayed
         console.log("waitlist.count:",waitlist.count); // TODO: remove console.log
         $("#div1").append(tbl);
         for(let i=0;i<waitlist.count;i++)
@@ -61,7 +95,8 @@ $(document).ready(function() {
             let td15 = "<td>"+waitlist.waitlists[i]["email"]+"</td></tr>";
 
             $("#wltable").append(tr+td1+td2+td3+td4+td5+td6+td7+td8+td9+td10+td11+td12+td13+td14+td15); 
-
+            shown ++;
+            $("#count").html("Count: " + shown);
         }
     }
 

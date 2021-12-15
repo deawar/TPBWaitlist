@@ -25,8 +25,12 @@ module.exports = function(passport) {
           }
         });
 
-        // TODO: add check for verified Email
+        // check for verified Email
         console.log("Passport.js Check for active status:", user.active )
+        // if (!user.active) {
+        //   return done(null, user);
+        //   //return done(null, false, { message: 'User must verify email address'});
+        // }
       });
     })
   );
