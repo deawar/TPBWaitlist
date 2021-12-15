@@ -271,23 +271,6 @@ $(document).ready(function() {
                     console.log("rowEdit:", rowEdit);
                     return rowEdit;
                 }
-                    // let editrow = { 
-                    //     "propName": "customer", "value": customer,
-                    //     "propName": "phone_mobile", "value": phone_mobile,
-                    //     "propName": "phone_other", "value": phone_other,
-                    //     "propName": "address", "value": address,
-                    //     "propName": "address2", "value": address2,
-                    //     "propName": "city", "value": city,
-                    //     "propName": "state", "value": state,
-                    //     "propName": "zip", "value": zip,
-                    //     "propName": "email", "value": email,
-                    //     "propName": "pets", "value": pets,
-                    //     "propName": "deleted_at", "value": deleted_at,
-                    //     "propName": "location", "value": location
-                    // }
-                    // console.log("editrow object:", editrow);
-                    // rowtoEdit.push(editrow);
-                    // console.log("Array to edit row:", editrow);
                     
                 rowToEdit = createJSON()  
                 console.log("Before updateRow call rowToEdit:", rowToEdit);
