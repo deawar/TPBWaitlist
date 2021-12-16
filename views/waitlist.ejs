@@ -14,7 +14,7 @@
                 <input type="checkbox" id="showDeletedRows" name="prolang"> Hide Deleted Rows <br/>
                 <span id="count">Count: </span>
             </div>
-            <div style="height: 600px;overflow: scroll;">
+            <div class="tableFixHead" style="height: 600px;overflow: scroll;">
             <table class="table table-hover customers-list" id="wltable">
                 <thead>
                     <tr>
@@ -338,4 +338,15 @@
             });
 
         })(document);
+    // Fix table head
+    function tableFixHead (e) {
+        const el = e.target,
+        sT = el.scrollTop;
+        el.querySelectorAll("thead th").forEach(th => 
+            th.style.transform = `translateY(${sT}px)`
+        );
+    }
+    document.querySelectorAll(".tableFixHead").forEach(el => 
+        el.addEventListener("scroll", tableFixHead)
+    );    
 </script>

@@ -197,7 +197,7 @@ router.patch('/update/:waitlistId', ensureAuthenticated,  (req, res)=> {
     .exec()
     .then(result => {
         console.log('what is result:',result);
-        req.flash('success_msg', `Row id:${id} operation marked as completed`);
+        req.flash('success_msg', `Row id:${id} edited and operation marked as completed`);
         res.render('waitlist', {
             user: req.user
             })

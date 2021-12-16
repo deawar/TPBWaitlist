@@ -13,6 +13,13 @@ $(document).ready(() => {
         }
       }
     }
+    // secretToken paste in box
+    $('#secretToken').bind('paste', function(e) {
+        let secretToken_in = e.originalEvent.clipboardData.getData('Text');
+        console.log('secretToken_in:',secretToken_in);
+        let secretToken_box = $('#secretTokenbox');
+        $('#secretTokenbox').val(secretToken_in);
+    })
 
     //$('#verifyTokenBtn').click((event) => {
     $('#verifyTokenBtn').on( "click", function(event) {    

@@ -150,8 +150,8 @@ router.post('/register', (req, res) => {
                 if (user.active === false) {
                   console.log('redirecting to /users/send....');
                   res.cookie('first_name', user.first_name);
-                  res.cookie('user_id', user.id);
-                  req.flash('success', 'You must confirm your email account. Check your email for a confirmation link.');
+                  res.cookie('user_id', user.id);                  
+                  req.flash('success_msg', 'You must confirm your email account. Check your email for a confirmation link.');
                   console.log('email: ',email);
                   // Email Verification
 
@@ -489,15 +489,16 @@ router.post('/register', (req, res) => {
                     </script>
                     </html>`,
                   };
-                  console.log('Sent by:', process.env.GMAIL_USERNAME);
-                  console.log('Line 413 signup_controller.js: ', mailOptions);
+                  console.log('Sent by:', process.env.GMAIL_USER);
+                  console.log('Line 443 users.js: ', mailOptions);
                   smtpTransport.sendMail(mailOptions, (error, info) => {
                     if (error) {
                       console.log('Error happened!!!');
                       res.status(500).json({ message: 'Error happened!!' });
                     } else {
-                      console.log('Email sent!!!');
-                      res.json({ message: 'Email sent!!' });
+                      console.log('Eamil sent to ',user.email);
+                      //req.flash('success_msg', 'Eamil sent to ',user.email);
+                      //res.json({ message: 'Email sent!!' });
                     }
                   });
                 } else {
@@ -514,6 +515,7 @@ router.post('/register', (req, res) => {
                 router.use(bodyParser.json()); 
                   //return res.redirect('/users/send');
                 } else {
+                  console.log('Line 518 success msg: You are Registered and can login');
                   req.flash(
                     'success_msg',
                     'You are now registered and can log in'
@@ -561,12 +563,13 @@ router.post('/verify', async (req, res, next) => {
           throw err;
         } else {
           console.log('User has been verified in DB!', resp);
-          // res.redirect('/login');
+          req.flash('success_msg', 'You have been verified in the DB!');
+          res.redirect('/users/login');
         }
       });
       res.redirect('/users/login');
     } else {
-      console.log('secretToken did not match. Suer is rejected. Token should be: ', user.local.secretToken);
+      console.log('secretToken did not match. User is rejected. Token should be: ', user.local.secretToken);
     }
   })
   
