@@ -11,9 +11,12 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const MemoryStore = require('memorystore')(session)
 const os = require('os');
+const getFQDN = require('get-fqdn');
+const networkAddress = os.networkInterfaces();
 const chalk = require('chalk');
 const { pid } = process;
 const hostname = os.hostname();
+const dns = require('dns');
 const morgan = require('morgan');
 
 const app = express();
@@ -30,19 +33,28 @@ require('./config/passport')(passport);
 
 // DB Config
 const db = require('./config/keys').mongoURI;
+const { promisify } = require('util');
+
+
 
 // Connect to MongoDB
 //if (process.env.NODE_ENV !== 'production') {
 // dev connect via mongoose
-  // const uri = process.env.MONGODB_URI;
-  // console.log('MongoDB Access string: ', uri);
+// const uri = process.env.MONGODB_URI;
+// console.log('MongoDB Access string: ', uri);
   // const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true });
   mongoose
-    .connect(
+  .connect(
       db,
       { useNewUrlParser: true ,useUnifiedTopology: true}
     )
-    .then(() => console.log(connected('MongoDB Connected')))
+    .then(() => {
+      if (process.env.NODE_ENV !== 'production') {
+        console.log(connected('MongoDB Connected:',process.env.DBLOCAL_HOST));
+      } else {
+        console.log(connected('MongoDB Connected:', process.env.DB_HOST));
+      }
+    })
     .catch(err => console.log(disconnected(err)));
     // client.connect((err) => {
     //   if (err) throw err;
@@ -93,36 +105,53 @@ app.use(
     resave: true,
     saveUninitialized: true
   })
-);
+  );
+  
+  // Passport middleware
+  app.use(passport.initialize());
+  app.use(passport.session());
+  
+  // Connect flash
+  app.use(flash());
+  
+  // Global variables
+  app.use(function(req, res, next) {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.error = req.flash('error');
+    next();
+  });
+  
+  // Routes
+  app.use('/', require('./routes/index.js'));
+  app.use('/maps', require('./routes/maps.js'));
+  app.use('/users', require('./routes/users.js'));
+  app.use('/send', require('./routes/users.js'));
+  app.use('/verify', require('./routes/users.js'));
+  app.use('/waitlist', require('./routes/waitlist.js'));
+  
+  const PORT = process.env.PORT || 5000;
+  
+  // Find FQDN
+  async function webURL(){
+    try {
+      const fqdn = await getFQDN();
+      console.log(`This is the FQDN: `+RedUL(`${fqdn}`));
 
-// Passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
+      // app.listen(PORT, console.log(`Server running on  ${PORT}`));
+      app.listen(PORT, () => {
+        console.log(connected(`PID: `+RedUL(`${pid}\n`)));
+        console.log(connected(
+          `==> 🌎  Listening on port `+RedUL(`${PORT}`)+ `. Visit `+RedUL(`http://${fqdn}:${PORT}/`)+` in your browser.`));
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+      
+  const myURL = webURL(hostname);
+  
+  // Out of scope of the webURL fx
+  // console.log(`Here is the FQDN: `+RedUL(`${myURL}`)); //Here is the FQDN: [object Promise]
+  
 
-// Connect flash
-app.use(flash());
-
-// Global variables
-app.use(function(req, res, next) {
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
-  res.locals.error = req.flash('error');
-  next();
-});
-
-// Routes
-app.use('/', require('./routes/index.js'));
-app.use('/maps', require('./routes/maps.js'));
-app.use('/users', require('./routes/users.js'));
-app.use('/send', require('./routes/users.js'));
-app.use('/verify', require('./routes/users.js'));
-app.use('/waitlist', require('./routes/waitlist.js'));
-
-const PORT = process.env.PORT || 5000;
-
-// app.listen(PORT, console.log(`Server running on  ${PORT}`));
-app.listen(PORT, () => {
-  console.log(connected(`PID: `+RedUL(`${pid}\n`)));
-  console.log(connected(
-    `==> 🌎  Listening on port `+RedUL(`${PORT}`)+ `. Visit `+RedUL(`http://${hostname}:${PORT}/`)+` in your browser.`));
-});

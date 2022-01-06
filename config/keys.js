@@ -11,7 +11,8 @@ if (process.env.NODE_ENV !== 'production') {
     const DB_URI = process.env.LOCALMONGODB_URI;
     dbPassword = DB_URI;
 } else {
-  const DB_URI = process.env.MONGODB_URI;
+  //const DB_URI = process.env.MONGODB_URI;
+  const DB_URI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}${process.env.DB_NAME}?retryWrites=true&w=majority`
   dbPassword = DB_URI;
 }
 

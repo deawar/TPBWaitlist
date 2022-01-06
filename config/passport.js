@@ -13,6 +13,10 @@ module.exports = function(passport) {
       }).then(user => {
         if (!user) {
           return done(null, false, { message: 'That email is not registered' });
+        // check for verified Email
+        } else if (!user.active) {
+          console.log("Passport.js Check for active status:", user.active )
+          return done(null, false, { message: 'User must verify email address'});
         }
 
         // Match password
@@ -26,10 +30,10 @@ module.exports = function(passport) {
         });
 
         // check for verified Email
-        console.log("Passport.js Check for active status:", user.active )
+        // console.log("Passport.js Check for active status:", user.active )
         // if (!user.active) {
-        //   return done(null, user);
-        //   //return done(null, false, { message: 'User must verify email address'});
+        //   //return done(null, user);
+        //   return done(null, false, { message: 'User must verify email address'});
         // }
       });
     })

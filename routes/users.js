@@ -497,7 +497,7 @@ router.post('/register', (req, res) => {
                       res.status(500).json({ message: 'Error happened!!' });
                     } else {
                       console.log('Eamil sent to ',user.email);
-                      //req.flash('success_msg', 'Eamil sent to ',user.email);
+                      req.flash('success_msg', 'Eamil sent to ',user.email);
                       //res.json({ message: 'Email sent!!' });
                     }
                   });
@@ -535,7 +535,7 @@ router.post('/register', (req, res) => {
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json());
 router.get('/verify', (req, res, next) => {
-  console.log('<----------------------------------Res.body: ', res.body);
+  console.log('<----------------------------------Res: ', res);
   console.log('----------------------------------> req.body.secretToken:',req.body.secretToken);
     res.render('verifytoken', { title: 'Verify Email Page' });
 });
@@ -545,21 +545,28 @@ router.post('/verify', async (req, res, next) => {
 
     console.log('Line 479 ----->secretToken:', secretToken);
     // Find account with matching secret Token
-    console.log('signup_controller Line 479 prior to findOnebySecretToken fx', secretToken);
+    console.log('signup_controller Line 548 prior to findOnebySecretToken fx', secretToken);
     // await findOnebySecretToken(req, res, secretToken);
     const filter = { secretToken };
-    console.log('line 484 secretToken null ck: ', secretToken);
-    console.log('line 485 filter null ck: ', filter);
+    console.log('line 551 secretToken null ck: ', secretToken);
+    console.log('line 552 filter null ck: ', filter);
     const update = { secretToken: '', active: true };
-    console.log('line 487 update null ck: ', update);
+    console.log('line 554 update null ck: ', update);
   // Compare token to DB if match blank it and set active === true
   User.findOne(filter, (err, user) => {
-    console.log('line 490 user null ck: ', user.secretToken);
-    console.log('line 491 req.body: ', req.body.secretToken);
-    if (user.secretToken === secretToken) {
-      console.log('Tokens match- Verify this user.');
+    //console.log('line 557 user null ck: ', user.secretToken);
+    //console.log('line 558 req.body: ', req.body.secretToken);
+    if (user.secretToken == null || user.secretToken === '') {
+      console.log('SecretToken absent or incorrect!');
+      req.flash('error_msg', 'You need to login or register.');
+      res.redirect('/users/login');
+    } else if (user.secretToken === secretToken) {
+      console.log('line 560--Tokens match- Verify this user.');
       User.findOneAndUpdate(filter, update, { new: true }, (err, resp) => {
         if (err) {
+          console.log('No Token found in DB!', resp);
+          req.flash('error_msg', 'Looks like you need to Register or LogIn!');
+          res.redirect('/users/login');
           throw err;
         } else {
           console.log('User has been verified in DB!', resp);
@@ -567,9 +574,11 @@ router.post('/verify', async (req, res, next) => {
           res.redirect('/users/login');
         }
       });
-      res.redirect('/users/login');
+      //res.redirect('/users/login');
     } else {
       console.log('secretToken did not match. User is rejected. Token should be: ', user.local.secretToken);
+      req.flash('error_msg', 'Unable to verify User in the DB!');
+      res.redirect('/users/login');
     }
   })
   
