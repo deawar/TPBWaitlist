@@ -28,5 +28,10 @@
         "!Split",
         "!Split sequence"
     ],
-    "liveServer.settings.port": 5501
+    "liveServer.settings.port": 5501,
+    "bracketPairColorizer.depreciation-notice": false,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.guides.bracketPairs":"active",
 }
+
+
