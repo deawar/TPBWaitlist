@@ -1,4 +1,5 @@
 $(document).ready(() => {
+    let verifiedTokenModal = document.getElementById('verified-token-modal');
     $('.modal').modal();
     // URL parser for jQuery
     function GetURLParameter(sParam) {
@@ -38,12 +39,13 @@ $(document).ready(() => {
           $.post('/users/verify', token, (req, res) => {
             console.log('<-------verfy email button clicked-------->');
             // verify modal triggers
-            $('.verified-token-modal').modal();
-            // eslint-disable-next-line no-shadow
-            $('#confirm-token').click((event) => {
-              event.preventDefault();
-              window.location.href = '/login';
-              return false;
+            $('#verified-token-modal').modal('toggle');
+            verifiedTokenModal.addEventListener('shown.bs.modal', function () {
+              $('#confirm-token').click((event) => {
+                event.preventDefault();
+                window.location.href = '/login';
+                return false;
+              });
             });
           });
         }
