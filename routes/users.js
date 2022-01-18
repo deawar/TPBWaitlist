@@ -5,10 +5,12 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const randomstring = require('randomstring');
 const os = require('os');
+const getFQDN = require('get-fqdn');
 const smtpTransport = require('../config/verify'); // { sendMail }
 
-// Load User model
+// Load User & Whitelist models
 const User = require('../models/User');
+const Whitelist = require('../models/Whitelist');
 const { forwardAuthenticated } = require('../config/auth');
 
 // Login Page
@@ -65,7 +67,7 @@ async function findOnebySecretToken(req, res, secretTokenPasted, done) {
           return done(err);
         }
         if (removed.active === true) {
-          req.flash('You have either already confirmed your account OR you may need to register', 'I did NOT find you in our database.');
+          req.flash('Error', 'You have either already confirmed your account OR you may need to register', 'I did NOT find you in our database.');
           return res.status(404).end();
         }
         req.flash('Success', 'Thank you! Now you can Login.');
@@ -73,7 +75,7 @@ async function findOnebySecretToken(req, res, secretTokenPasted, done) {
       });
 
     req.flash('Success', 'Thank you! Now you can Login.');
-    res.redirect('/users/signup');
+    res.redirect('/users/login');
   } else {
     req.flash('Success', 'Thank you! Now you can Login.');
     res.redirect('/users/login');
@@ -192,7 +194,7 @@ router.post('/register', (req, res) => {
                     secretToken = user.secretToken;
 
                     if (process.env.NODE_ENV === 'development'|| process.env.NODE_ENV === 'test') {
-                      link = `http://${hostname}:${PORT}/verify?id=${secretToken}`;
+                      link = `http://${hostname}:${PORT}/users/verify?id=${secretToken}`;
                     } else {
                       // eslint-disable-next-line prefer-template
                       //link = `https://TPBWaitlist.thepuppybarber.com/verify?id=` + secretToken;
@@ -496,8 +498,8 @@ router.post('/register', (req, res) => {
                       console.log('Error happened!!!');
                       res.status(500).json({ message: 'Error happened!!' });
                     } else {
-                      console.log('Eamil sent to ',user.email);
-                      req.flash('success_msg', 'Eamil sent to ',user.email);
+                      console.log('Eamil sent to',user.email);
+                      req.flash('success', 'Eamil sent to ',user.email);
                       //res.json({ message: 'Email sent!!' });
                     }
                   });
@@ -517,7 +519,7 @@ router.post('/register', (req, res) => {
                 } else {
                   console.log('Line 518 success msg: You are Registered and can login');
                   req.flash(
-                    'success_msg',
+                    'success',
                     'You are now registered and can log in'
                   );
                   res.redirect('/users/login');
@@ -558,7 +560,7 @@ router.post('/verify', async (req, res, next) => {
     //console.log('line 558 req.body: ', req.body.secretToken);
     if (user.secretToken == null || user.secretToken === '') {
       console.log('SecretToken absent or incorrect!');
-      req.flash('error_msg', 'You need to login or register.');
+      req.flash('error', 'You need to login or register.');
       res.redirect('/users/login');
     } else if (user.secretToken === secretToken) {
       console.log('line 560--Tokens match- Verify this user.');
