@@ -1,12 +1,26 @@
 <% include ./partials/navbar.ejs %>
 
 <div class="row mt-5">
-    <div class="col-md-6 m-auto">
+    <div class="m-auto">
         <div class="card card-body border border-danger">
             <h1 class="text-center mb-3">Dashboard</h1>
             <p class="lead mb-3 text-center">Welcome <%= user.first_name %>!</p>
+            <table style="width:100%">
+                <tr>
+                    <th>Customers on Waitlist</th>
+                    <th>Customers Marked as Deleted</th>
+                </tr>
+                <tr>
+                    <td>290</td>
+                    
+                    <td>46</td>
+                    
+                </tr>
+            </table>
+            <br>
             <a href="/users/logout" action="submit" class="btn btn-danger btn-block hoverable">Logout</a>
         </div>
     </div>
 </div>
+<script src="../js/dashboardpage.js"></script>
 <% include ./partials/footer.ejs %>
