@@ -6,11 +6,16 @@ const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 router.get('/', forwardAuthenticated, (req, res) => res.render('welcome'));
 
 // Dashboard
-router.get('/dashboard', ensureAuthenticated, (req, res) =>
+router.get('/dashboard', ensureAuthenticated, function(req, res) {
+  // let WaitlistCustomers = [
+  //   { vehicle: "TPB Trailer", WaitlistTotal: 182, DeletedCustomers: 136 },
+  //   { vehicle: "TPB Van", WaitlistTotal: 108, DeletedCustomers: 38 } 
+  // ]
+  // console.log('# of Customers on Waitlist: ', WaitlistCustomers[0].WaitlistTotal);
   res.render('dashboard', {
     user: req.user
   })
-);
+});
 
 // router.get('/waitlist', ensureAuthenticated, (req, res) =>
 //   res.render('waitlist', {
