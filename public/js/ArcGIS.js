@@ -1,3 +1,4 @@
+// const apiKey = process.env.ArcGis_API_Key
 const apiKey = "AAPKb4a6ea84516a4efba14c236d8f3177fehN7FDSaoVfKQTpy_yHeUIZylKtG_AZNOX623vQN3jJaWAQuNlrFUk5ivmHUo1jbO";
 const basemapEnum = "ArcGIS:Navigation";
 
