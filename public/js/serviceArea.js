@@ -7,7 +7,7 @@ require([
     "esri/rest/support/FeatureSet",
     "esri/Graphic"
     ], function(esriConfig,Map, MapView, serviceArea, ServiceAreaParams, FeatureSet, Graphic) {
-    const apiKey = "AAPKb4a6ea84516a4efba14c236d8f3177fehN7FDSaoVfKQTpy_yHeUIZylKtG_AZNOX623vQN3jJaWAQuNlrFUk5ivmHUo1jbO";
+    const apiKey = "A_Key_That_Should_Not_Be_Public";
     const basemapEnum = "ArcGIS:Navigation";
     const currentFacility = "33.82017702602581, -83.84221905330062";
     const map = L.map('map', {

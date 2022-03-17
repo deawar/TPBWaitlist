@@ -10,7 +10,7 @@ require([
     "esri/widgets/Search"
   ], function(esriConfig,Map, MapView, serviceArea, ServiceAreaParams, FeatureSet, Graphic, GraphicsLayer, Search) {
 
-  esriConfig.apiKey = "AAPKb4a6ea84516a4efba14c236d8f3177fehN7FDSaoVfKQTpy_yHeUIZylKtG_AZNOX623vQN3jJaWAQuNlrFUk5ivmHUo1jbO";
+  esriConfig.apiKey = "A_Key_That_Should_Not_Be_Public";
 
     const map = new Map({
       basemap: "arcgis-navigation"
