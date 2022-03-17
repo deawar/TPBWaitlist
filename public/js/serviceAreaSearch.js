@@ -8,9 +8,9 @@ require([
     "esri/Graphic",
     "esri/layers/GraphicsLayer",
     "esri/widgets/Search"
-], function(esriConfig,Map, MapView, serviceArea, ServiceAreaParams, FeatureSet, Graphic, GraphicsLayer, Search) {
+  ], function(esriConfig,Map, MapView, serviceArea, ServiceAreaParams, FeatureSet, Graphic, GraphicsLayer, Search) {
 
-esriConfig.apiKey = "AAPKb4a6ea84516a4efba14c236d8f3177fehN7FDSaoVfKQTpy_yHeUIZylKtG_AZNOX623vQN3jJaWAQuNlrFUk5ivmHUo1jbO";
+  esriConfig.apiKey = "AAPKb4a6ea84516a4efba14c236d8f3177fehN7FDSaoVfKQTpy_yHeUIZylKtG_AZNOX623vQN3jJaWAQuNlrFUk5ivmHUo1jbO";
 
     const map = new Map({
       basemap: "arcgis-navigation"
