@@ -9,8 +9,9 @@ require([
     "esri/rest/support/ServiceAreaParameters",
     "esri/rest/support/FeatureSet",
     "esri/Graphic",
+    "esri/layers/GraphicsLayer",
     "esri/widgets/Search"
-  ], function(Portal, OAuthInfo, esriId, esriConfig, Map, MapView, serviceArea, ServiceAreaParams, FeatureSet, Graphic, Search) {
+  ], function(Portal, OAuthInfo, esriId, esriConfig, Map, MapView, serviceArea, ServiceAreaParams, FeatureSet, Graphic, GraphicsLayer, Search) {
 
 const info = new OAuthInfo({
     appId: "7hkJrw8TQi0fekCj",
@@ -82,10 +83,16 @@ const info = new OAuthInfo({
       const graphic = new Graphic({
         geometry: point,
         symbol: {
-          type: "simple-marker",
-          color: "blue",
-          size: 8
+          type: "picture-marker",
+          url: "https://tpbwaitlist.ssccbogart.info/assets/TPBLOGO.svg",
+          width: 46,
+          height: 46
         }
+        // symbol: {
+        //   type: "simple-marker",
+        //   color: "blue",
+        //   size: 8
+        // }
       });
 
       view.graphics.add(graphic);
