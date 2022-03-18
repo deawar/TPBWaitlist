@@ -25,6 +25,13 @@ require([
       container: "map"
     });
     
+    const marker = {
+      type: "picture-marker",
+      url: "https://tpbwaitlist.ssccbogart.info/assets/Truck.svg",
+      width: 794,
+      height: 1123
+    };
+
     const search = new Search({  //Add Search widget
       view: view
     });
