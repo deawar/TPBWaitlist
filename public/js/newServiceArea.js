@@ -59,8 +59,6 @@ const info = new OAuthInfo({
         document.getElementById("results").innerText = 'Signed Out'
     }
 
-    //esriConfig.apiKey = "YOUR_API_KEY";
-
     const map = new Map({
       basemap: "arcgis-navigation"
     });
