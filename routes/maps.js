@@ -16,7 +16,8 @@ const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
 const PORT = process.env.PORT;
 // To Load Host the app is working on
 const hostname = os.hostname();
-const REDIRECT_URI = `https://tpbwaitlist.ssccbogart.info/maps/authenticate`
+const REDIRECT_URI = process.env.REDIRECT_URI
+//const REDIRECT_URI = `https://tpbwaitlist.ssccbogart.info/maps/authenticate`;
 //const REDIRECT_URI = `http://localhost:${PORT}/maps/authenticate`;
 const ARCGIS_URL = "https://www.arcgis.com/sharing/rest/oauth2/token";
 const ARCGIS_ONLINE_GEOCODING_URL = "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/";
@@ -102,6 +103,7 @@ router.get('/sign-in', ensureAuthenticated, (req, res) => {
     UserSession.authorize(credentials, res);
     //authentication.authorize(credentials, res);
     console.log('Serverside ARCGIS Auth');
+    console.log('REDIRECT_URI: ', REDIRECT_URI);
     let parameters = new FormData();
     parameters.append('f', 'json');
     parameters.append('client_id', CLIENT_ID);
