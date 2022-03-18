@@ -209,8 +209,8 @@ router.get('/', ensureAuthenticated, (req, res) => {
                         }
                     })
                 }
-                console.log(`${response.count} of Customers accessed`)
-                req.flash('success_msg', `${response.count} of Customers accessed`);
+                console.log(`${response.count} Customer records accessed`)
+                req.flash('success_msg', `${response.count} Customer records accessed`);
                 let access_token = {
                     "access_token": req.session.userSession.token,
                     "expires_in": req.session.userSession.tokenDuration,
