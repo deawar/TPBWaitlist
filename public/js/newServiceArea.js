@@ -8,8 +8,9 @@ require([
     "esri/rest/serviceArea",
     "esri/rest/support/ServiceAreaParameters",
     "esri/rest/support/FeatureSet",
-    "esri/Graphic"
-  ], function(Portal, OAuthInfo, esriId, esriConfig, Map, MapView, serviceArea, ServiceAreaParams, FeatureSet, Graphic) {
+    "esri/Graphic",
+    "esri/widgets/Search"
+  ], function(Portal, OAuthInfo, esriId, esriConfig, Map, MapView, serviceArea, ServiceAreaParams, FeatureSet, Graphic, Search) {
 
 const info = new OAuthInfo({
     appId: "7hkJrw8TQi0fekCj",
@@ -26,16 +27,6 @@ const info = new OAuthInfo({
         handleSignedOut();
 
     });
-
-    // Attempt to use fetch to retrieve OAuth token
-    // fetch(portalUrl, {
-    //     method: 'post',
-    //     body: JSON.stringify(info)
-    // }),then(function(response) {
-    //     return response.json();
-    // }).then(function(data) {
-
-    // })
 
     document.getElementById("sign-in").addEventListener("click", function () {
         esriId.getCredential(info.portalUrl + "/sharing");
@@ -69,18 +60,20 @@ const info = new OAuthInfo({
       center: [-83.84221905330062, 33.82017702602581], //Longitude, latitude
       zoom: 11
     });
+
+    const search = new Search({  //Add Search widget
+      view: view
+    });
+    
+    view.ui.add(search, "top-right"); //Add to the map
     
     const serviceAreaUrl = "https://route-api.arcgis.com/arcgis/rest/services/World/ServiceAreas/NAServer/ServiceArea_World/solveServiceArea";
     
     view.on("click", function(event){
-      
       const locationGraphic = createGraphic(event.mapPoint);
-      
       const driveTimeCutoffs = [5,10,15,20,25]; // Minutes
       const serviceAreaParams = createServiceAreaParams(locationGraphic, driveTimeCutoffs, view.spatialReference);
-
       solveServiceArea(serviceAreaUrl, serviceAreaParams);
-
     });
     
     // Create the location graphic
@@ -118,8 +111,7 @@ const info = new OAuthInfo({
     }
     
     function solveServiceArea(url, serviceAreaParams) {
-
-        return serviceArea.solve(url, serviceAreaParams)
+      return serviceArea.solve(url, serviceAreaParams)
         .then(function(result){
             if (result.serviceAreaPolygons.length) {
                 // Draw each service area polygon
