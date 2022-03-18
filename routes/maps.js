@@ -16,7 +16,8 @@ const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
 const PORT = process.env.PORT;
 // To Load Host the app is working on
 const hostname = os.hostname();
-const REDIRECT_URI = `http://localhost:${PORT}/maps/authenticate`;
+const REDIRECT_URI = `https://tpbwaitlist.ssccbogart.info/maps/authenticate`
+//const REDIRECT_URI = `http://localhost:${PORT}/maps/authenticate`;
 const ARCGIS_URL = "https://www.arcgis.com/sharing/rest/oauth2/token";
 const ARCGIS_ONLINE_GEOCODING_URL = "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/";
 const ARCGIS_ONLINE_BULK_GEOCODING_URL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/";
@@ -201,14 +202,13 @@ router.get('/', ensureAuthenticated, (req, res) => {
                             'Last Appt': doc['Last Appt'],
                             request: {
                                 type: 'GET',
-                                url: `http://${hostname}:${PORT}/map/` + doc._id
+                                url: `http://${hostname}:${PORT}/maps/` + doc._id
                             }
                         }
                     })
                 }
-                
-                console.log('Current Customer List accessed')
-                req.flash('success_msg', 'Current Customer List displayed');
+                console.log(`${count} of Customers accessed`)
+                req.flash('success_msg', `${count} of Customers accessed`);
                 let access_token = {
                     "access_token": req.session.userSession.token,
                     "expires_in": req.session.userSession.tokenDuration,
