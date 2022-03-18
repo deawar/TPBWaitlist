@@ -90,7 +90,7 @@ const info = new OAuthInfo({
         geometry: point,
         symbol: {
           type: "simple-marker",
-          color: "white",
+          color: "blue",
           size: 8
         }
       });
