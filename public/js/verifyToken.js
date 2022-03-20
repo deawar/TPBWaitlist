@@ -25,7 +25,7 @@ $(document).ready(() => {
     //$('#verifyTokenBtn').click((event) => {
     $('#verifyTokenBtn').on( "click", function(event) {    
         event.preventDefault();
-        console.log('testing');
+        console.log('testing',{event});
         const hbtoken = GetURLParameter('id');
         console.log(GetURLParameter('id'));
         const token = { secretToken: $('#secretToken').val() };
