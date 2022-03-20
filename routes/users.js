@@ -196,12 +196,12 @@ router.post('/register', (req, res) => {
                     secretToken = user.secretToken;
 
                     if (process.env.NODE_ENV === 'development'|| process.env.NODE_ENV === 'test') {
-                      link = `http://${MAIN_URL}/users/verify?id=${secretToken}`;
+                      link = `${MAIN_URL}/users/verify?id=${secretToken}`;
                     } else {
                       // eslint-disable-next-line prefer-template
                       //link = `https://TPBWaitlist.thepuppybarber.com/verify?id=` + secretToken;
                       //link = `http://${req.get(host)}/verify?id=${secretToken}`;
-                      link = `http://${MAIN_URL}/users/verify?id=${secretToken}`;
+                      link = `${MAIN_URL}/users/verify?id=${secretToken}`;
                     }
                     console.log('Verify Return Link: ', link);
                     mailOptions = {
