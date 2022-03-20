@@ -6,6 +6,7 @@ const passport = require('passport');
 const randomstring = require('randomstring');
 const os = require('os');
 const getFQDN = require('get-fqdn');
+const MAIN_URL = process.env.MAIN_URL
 const smtpTransport = require('../config/verify'); // { sendMail }
 
 // Load User & Whitelist models
@@ -194,12 +195,12 @@ router.post('/register', (req, res) => {
                     secretToken = user.secretToken;
 
                     if (process.env.NODE_ENV === 'development'|| process.env.NODE_ENV === 'test') {
-                      link = `http://${hostname}:${PORT}/users/verify?id=${secretToken}`;
+                      link = `http://${MAIN_URL}/users/verify?id=${secretToken}`;
                     } else {
                       // eslint-disable-next-line prefer-template
                       //link = `https://TPBWaitlist.thepuppybarber.com/verify?id=` + secretToken;
                       //link = `http://${req.get(host)}/verify?id=${secretToken}`;
-                      link = `http://${hostname}:${PORT}/users/verify?id=${secretToken}`;
+                      link = `http://${MAIN_URL}/users/verify?id=${secretToken}`;
                     }
                     console.log('Verify Return Link: ', link);
                     mailOptions = {
@@ -476,14 +477,14 @@ router.post('/register', (req, res) => {
                     </body>
                     <script type="application/ld+json">
                     {
-                    "@context": "https://tpbwaitlist.thepuppybarber.com/",
+                    "@context": "${MAIN_URL}/",
                     "@type": "EmailMessage",
                     "potentialAction": {
                       "@type": "ConfirmAction",
                       "name": "Approve Expense",
                       "handler": {
                         "@type": "HttpActionHandler",
-                        "url": "https://tpbwaitlist.thepuppybarber.com/verify?id=${secretToken}"
+                        "url": "${MAIN_URL}/verify?id=${secretToken}"
                       }
                     },
                     "description": "Email Verification for The Puppy Barber Waitlist"
