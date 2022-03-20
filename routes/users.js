@@ -19,6 +19,7 @@ router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
 
 // Register Page
 router.get('/register', forwardAuthenticated, (req, res) => res.render('register'));
+console.log({MAIN_URL});
 
 // SecretToken compare Fx
 // Find secretToken to compare from DB
