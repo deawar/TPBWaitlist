@@ -541,7 +541,7 @@ router.use(bodyParser.json());
 router.get('/verify', (req, res, next) => {
   console.log('<----------------------------------Res: ', res);
   console.log('----------------------------------> req.body.secretToken:',req.body.secretToken);
-    res.render('verifytoken', { title: 'Verify Email Page' });
+    res.render('verifyToken', { title: 'Verify Email Page' });
 });
 router.post('/verify', async (req, res, next) => {
   try {
