@@ -563,7 +563,7 @@ router.post('/verify', async (req, res, next) => {
     // if (user.secretToken == null || user.secretToken === '') {
     if (user.secretToken === '') {
       console.log('SecretToken absent or incorrect!');
-      req.flash('error', 'You need to login or register.');
+      req.flash('error_msg', 'You need to login or register.');
       res.redirect('/users/login');
     } else if (user.secretToken === secretToken) {
       console.log('line 560--Tokens match- Verify this user.');
