@@ -560,7 +560,8 @@ router.post('/verify', async (req, res, next) => {
   User.findOne(filter, (err, user) => {
     //console.log('line 557 user null ck: ', user.secretToken);
     //console.log('line 558 req.body: ', req.body.secretToken);
-    if (user.secretToken == null || user.secretToken === '') {
+    // if (user.secretToken == null || user.secretToken === '') {
+    if (user.secretToken === '') {
       console.log('SecretToken absent or incorrect!');
       req.flash('error', 'You need to login or register.');
       res.redirect('/users/login');
