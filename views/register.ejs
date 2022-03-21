@@ -127,7 +127,7 @@ crossorigin="anonymous">
   $(document).ready(function() {
     let newUserEmail = $('#email').val();
     let eMailModal = document.getElementById('eMailModal');
-    let emailInput = document.forms.email;
+    let emailInput = $(forms).email;
     console.log('email val:',newUserEmail);
     console.log({emailInput});
     $(".modal-body").html(`<p>Email Address: `+newUserEmail+`</p>`);
