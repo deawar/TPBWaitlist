@@ -129,8 +129,9 @@ crossorigin="anonymous">
     let emailInput = document.getElementById('email');
     let newUserEmail = $('#email').val();
     console.log('email val:',newUserEmail);
+    console.log({emailInput});
     $(".modal-body").html(`<p>Email Address: `+newUserEmail+`</p>`);
-    eMailModal.addEventListener('shown.bs.modal', function () {
+    eMailModal.addEventListener('shown.bs.modal', function (emailInput) {
       emailInput.focus();
     })  
   });  
