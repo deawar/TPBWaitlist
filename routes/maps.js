@@ -16,7 +16,7 @@ const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
 const PORT = process.env.PORT;
 // To Load Host the app is working on
 const hostname = os.hostname();
-const REDIRECT_URI = `http://localhost:${PORT}/maps/authenticate`;
+const REDIRECT_URI = process.env.REDIRECT_URI;
 const ARCGIS_URL = "https://www.arcgis.com/sharing/rest/oauth2/token";
 const ARCGIS_ONLINE_GEOCODING_URL = "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/";
 const ARCGIS_ONLINE_BULK_GEOCODING_URL = "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/";
