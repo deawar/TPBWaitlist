@@ -8,6 +8,8 @@ module.exports = {
         database: process.env.DB_NAME,
         host: process.env.DB_HOST,
         uri: process.env.MONGODB_URI,
+        REDIRECT_URI:process.env.LOCAL_REDIRECT_URI,
+        MAIN_URL:process.env.LOCAL_MAIN_URL,
       // dialect: 'mongodb',
       // socketPath: '/var/run/mysqld/mysqld.sock',
     },
@@ -16,7 +18,9 @@ module.exports = {
         password: process.env.DBLOCAL_PASSWORD,
         database: process.env.DBLOCAL_NAME,
         host: process.env.DBLOCAL_HOST,
-        uri: process.env.MONGODB_URI,
+        uri: process.env.MONGODB_URI,        
+        REDIRECT_URI:process.env.LOCAL_REDIRECT_URI,
+        MAIN_URL:process.env.LOCAL_MAIN_URL,
       // dialect: 'mongodb',
     },
     production: {
@@ -27,5 +31,7 @@ module.exports = {
         uri: process.env.MONGODB_URI,
         dialect: 'mongodb',
         dialectModule: 'mongodb',
+        REDIRECT_URI:process.env.REDIRECT_URI,
+        MAIN_URL:process.env.MAIN_URL,
     },
 };
