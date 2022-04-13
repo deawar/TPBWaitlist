@@ -26,6 +26,7 @@
     "get-fqdn": "0.0.4",
     "isomorphic-form-data": "^2.0.0",
     "leaflet-geosearch": "^3.6.0",
+    "logrocket": "^2.2.1",
     "memorystore": "^1.6.6",
     "mongodb": "^4.2.2",
     "mongoose": "^6.1.2",
