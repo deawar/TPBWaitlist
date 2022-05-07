@@ -78,38 +78,6 @@ const WaitlistSchema = new Schema({
     pets: {
         type: Array,
     },
-    // pets: [{
-    //     pets_name: {
-    //         type: String,
-    //         trim: true,
-    //         required: true,
-    //     },
-    //     pets_species: {
-    //         type: String,
-    //         trim: true,
-    //         required: true,
-    //     },
-    //     pets_sex: {
-    //         type: String,
-    //         trim: true,
-    //         required: true,
-    //     },
-    //     pets_breed:  {
-    //         type: String,
-    //         trim: true,
-    //         required: true,
-    //     },
-    //     pets_age: {
-    //         type: String,
-    //         maxlength: 2,
-    //         required: true,
-    //     },
-    //     pets_weight: {
-    //         type: Number,
-    //         maxlength: 3,
-    //         required: true,
-    //     }
-    // }],
     preferred_days: {
         type: Array,
     },
