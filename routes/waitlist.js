@@ -91,8 +91,84 @@ router. get('/find/:query', (req, res) => { // TODO: add 'ensureAuthenticated, '
     })
 })
 
+// function to captur pets in json obj
+function grabPets(req) {
+    let pets= [];
+    let pet = {};
+    let len = req.body.petsNumber;
+    for(let i=0; i < len; i++) {
+        //petsNumber: req.body.petsNumber,
+        console.log("--->in grabPets", req.body)
+        for (var key in req.body) {
+            if (req.body.hasOwnProperty(key)) {
+                let value = req.body[key];
+                console.log(`value for ${key} is ${value}`)
+                if(key.includes('petsSpecies'+i)){
+                    pet.pets_species = value;
+                }
+                if(key.includes('petsName'+i)){
+                    pet.pets_name = value;
+                }
+                if(key.includes('petsSex'+i)){
+                    pet.pets_sex = value;
+                }
+                if(key.includes('petsBreed'+i)){
+                    pet.pets_breed = value;
+                }
+                if(key.includes('petsAge'+i)){
+                    pet.pets_age = value;
+                }
+                if(key.includes('petsWeight'+i)){
+                    pet.pets_weight = value;
+                }
+
+            }
+        }
+        //pet.pets_species = req.body.petSpecies[i];
+        // pet.pets_name = req.body.petsNme[i];
+        // pet.pets_sex = req.body.petsSex+i;
+        // pet.pets_breed = req.body.petsBreed[i];
+        // pet.pets_age = req.body.petsAge[i];
+        // pet.pets_weight = req.body.petsWeight[i]    
+        //pets_species: req.body.petsSpecies,
+        //pets_name: req.body.petsName,
+        // pets_sex: req.body.petsSex,
+        // pets_breed: req.body.petsBreed,
+        // pets_age: req.body.petsAge,
+        // pets_weight: req.body.petsWeight
+        pets.push(pet);
+        pet = {};
+        
+    };
+    console.log('in grabPets fx:',{pets})
+    return pets;
+}
+
+
 // Create New Waitlist objects
 router.post('/', ensureAuthenticated, (req, res, next) => {
+    let pets= [];
+    // let pet = {};
+    // let len = req.body.petsNumber;
+    // for(let i=0; i < len; i++) {
+    //     //petsNumber: req.body.petsNumber,
+        
+    //     pet.pets_species = req.body.petSpecies[i];
+    //     pet.pets_name = req.body.petsNme[i];
+    //     pet.pets_sex = req.body.petsSex+i[i];
+    //     pet.pets_breed = req.body.petsBreed[i];
+    //     pet.pets_age = req.body.petsAge[i];
+    //     pet.pets_weight = req.body.petsWeight[i]    
+    //     //pets_species: req.body.petsSpecies,
+    //     //pets_name: req.body.petsName,
+    //     // pets_sex: req.body.petsSex,
+    //     // pets_breed: req.body.petsBreed,
+    //     // pets_age: req.body.petsAge,
+    //     // pets_weight: req.body.petsWeight
+    //     waitlist.pets.push(pet);
+    //     pet = {};
+    // };
+console.log(req.body);
     const waitlist =  new Waitlist({
         _id: new mongoose.Types.ObjectId(),  
         customer: req.body.first_name + ' ' + req.body.last_name,
@@ -104,11 +180,19 @@ router.post('/', ensureAuthenticated, (req, res, next) => {
         state: req.body.state,
         zip: req.body.zip,
         email: req.body.email,
-        pets: req.body.pets,
+        // petsNumber: req.body.petsNumber,
+        // pets_species: req.body.petsSpecies,
+        // pets_name: req.body.petsName,
+        // pets_sex: req.body.petsSex,
+        // pets_breed: req.body.petsBreed,
+        // pets_age: req.body.petsAge,
+        // pets_weight: req.body.petsWeight,
         preferred_days: req.body.preferred_days,
         deleted_at: req.body.deleted_at,
         location: req.body.current_facility,
     });
+    
+    waitlist.pets = grabPets(req);
     console.log("New Waitlist object:", waitlist);
     waitlist
     .save()

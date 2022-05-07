@@ -86,7 +86,7 @@ $(document).ready(function() {
             let td10 = "<td>"+waitlist.waitlists[i]["phone_mobile"]+"</td>";
             let td11 = "<td>"+waitlist.waitlists[i]["phone_other"]+"</td>";
             let td12 = "<td>"+waitlist.waitlists[i]["location"]+"</td>";
-            let td13 = "<td>"+waitlist.waitlists[i]["preferred_days"]+"</td>";
+            let td13 = "<td>"+waitlist.waitlists[i]["preferred_days"][0]+"</td>";
             let delatDate = waitlist.waitlists[i]["deleted_at"];
             let dateDeleted = false;
             delDate = displayDateTime (delatDate, dateDeleted)
@@ -215,6 +215,16 @@ $(document).ready(function() {
                 FormObject.elements['pets'].value = "";
             } else {
                 FormObject.elements['pets'].value = waitlist.waitlists[editIndex].pets;
+            };
+            if (waitlist.waitlists[editIndex].pets[0].petsName === undefined) {
+                FormObject.elements['petsName'].value = "";
+            } else {
+                FormObject.elements['petsName'].value = waitlist.waitlists[editIndex].petsName;
+            };
+            if (waitlist.waitlists[editIndex].petsBreed === undefined) {
+                FormObject.elements['petsBreed'].value = "";
+            } else {
+                FormObject.elements['petsBreed'].value = waitlist.waitlists[editIndex].petsBreed;
             };
             if (waitlist.waitlists[editIndex].preferred_days === undefined) {
                 FormObject.elements['preferred_days'].value = "";

@@ -64,6 +64,9 @@ const WaitlistSchema = new Schema({
         required: true,
         min: 5,
     },
+    geocode: {
+        type: String
+    },
     email: {
         type: String,
         trim: true,
@@ -74,11 +77,41 @@ const WaitlistSchema = new Schema({
     },
     pets: {
         type: Array,
-        required: true,
     },
+    // pets: [{
+    //     pets_name: {
+    //         type: String,
+    //         trim: true,
+    //         required: true,
+    //     },
+    //     pets_species: {
+    //         type: String,
+    //         trim: true,
+    //         required: true,
+    //     },
+    //     pets_sex: {
+    //         type: String,
+    //         trim: true,
+    //         required: true,
+    //     },
+    //     pets_breed:  {
+    //         type: String,
+    //         trim: true,
+    //         required: true,
+    //     },
+    //     pets_age: {
+    //         type: String,
+    //         maxlength: 2,
+    //         required: true,
+    //     },
+    //     pets_weight: {
+    //         type: Number,
+    //         maxlength: 3,
+    //         required: true,
+    //     }
+    // }],
     preferred_days: {
-        type: String,
-        trim: true,
+        type: Array,
     },
     deleted_at: {
         type: Date,

@@ -63,9 +63,33 @@ const CustomersSchema = new Schema({
         required: true,
         min: 5,
     },
-    Pets: {
+    geocode: {
+        type: String,
+    },
+    pets: [{
+        petsName: {
+            type: String,
+            trim: true,
+        },
+        petsSpecies: {
+            type: String,
+            trim: true,
+        },
+        petsSex: {
+            type: String,
+            trim: true,
+        },
+        petsBreed: {
+            type: String,
+            trim: true,
+        },
+        petsAge: {
+            type: String,
+            trim: true,
+        },
+    }],
+    preferred_days: {
         type: Array,
-        required: true,
     },
     "Last Appt": { 
         type: String, 

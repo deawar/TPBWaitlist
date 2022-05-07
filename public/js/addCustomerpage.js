@@ -32,4 +32,36 @@ $(document).ready(function() {
 			});
 		}
 	});
+
+	$("#0petsBreed").keyup(function() {
+		let breed_in = $(this);
+		let breed_box = $('#breedbox');
+		console.log('Breed of Dog after breed_in:', breed_in.val())
+		if (breed_in.val().length < 5) {
+			breed_box.removeClass('error success');
+		} else if (breed_in.val().length > 25) {
+			breed_box.addClass('error').removeClass('success');
+		} else if(breed_in.val().length === 5) {
+			// Make HTTP request
+			$.ajax({
+				url: "https://dog.ceo/api/breeds/list/all" + breed_in.val(),
+				cache: false,
+				dataType: "json",
+				type: "GET",
+				success: function(result, success) {
+					// Dog Breed API is a simple JSON list
+					breeds = result['breed'][0];
+					console.log('breeds:',breeds);
+					$("#petsBreed").val(breeds['place name']);
+					//$("#state").val(places['state']);
+					$("#state").val(breeds['state abbreviation']);
+					breed_box.addClass('success').removeClass('error');
+				},
+				error: function(result, success) {
+					breed_box.removeClass('success').addClass('error');
+				}
+			});
+		}
+	})
+
 });
