@@ -110,4 +110,4 @@ Many Thanks to:
 * [standard](https://www.npmjs.com/package/standard)  
 * [nodemon](https://www.npmjs.com/package/nodemon)  
 ## Questions 
-![Dean Warren](https://avatars.githubusercontent.com/u/15312495?v=4&s=48)   Click on [@Dean Warren](https://github.com/deawar)
+![Dean Warren](https://avatars.githubusercontent.com/u/15312495?v=4&s=48)   Click on [@Dean Warren](https://github.com/deawar)  
