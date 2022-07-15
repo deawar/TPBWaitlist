@@ -4,6 +4,7 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 const os = require('os');
+
 const PORT = process.env.PORT
 
 // Load Waitlist model
@@ -11,6 +12,28 @@ const Waitlist = require('../models/Waitlist');
 
 // To Load Host the app is working on
 const hostname = os.hostname();
+
+// Geocode addresses of new customers
+async function getLocation(address, address2, city, state, zip){
+    const locationURL = `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?SingleLine=${address}, ${address2}, ${city}, ${state} ${zip},USA&category=&outFields=*&forStorage=false&f=json`
+    console.log('locationURL: ', locationURL);
+    //return await fetch(locationURL,
+    await fetch(locationURL,
+    {
+        method: "GET",
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        },
+    })
+    .then((response) => response.json())
+    .then((responseData) => {
+        console.log("Before Return: ", responseData.candidates[0].location);
+        return responseData.candidates[0].location;
+    })
+    .catch(error => console.warn(error));
+};  
+  //getLocation().then(response => console.log(response));
 
 // Waitlist Page
 router.get('/', ensureAuthenticated, (req, res) =>
@@ -42,6 +65,7 @@ router.get('/displaywaitlist', ensureAuthenticated,(req, res) => {
                         email: doc.email,
                         phone_mobile: doc.phone_mobile,
                         phone_other: doc.phone_other,
+                        coor_location: doc.coor_location,
                         address: doc.address,
                         address2: doc.address2,
                         city: doc.city,
@@ -174,24 +198,21 @@ console.log(req.body);
         customer: req.body.first_name + ' ' + req.body.last_name,
         phone_mobile: req.body.phone_mobile,
         phone_other: req.body.phone_other,
+        //coor_location: req.body.coor_location,
         address: req.body.address,
         address2: req.body.address2,
         city: req.body.city,
         state: req.body.state,
         zip: req.body.zip,
         email: req.body.email,
+        coor_location: req.body.coor_location,
         // petsNumber: req.body.petsNumber,
-        // pets_species: req.body.petsSpecies,
-        // pets_name: req.body.petsName,
-        // pets_sex: req.body.petsSex,
-        // pets_breed: req.body.petsBreed,
-        // pets_age: req.body.petsAge,
-        // pets_weight: req.body.petsWeight,
         preferred_days: req.body.preferred_days,
         deleted_at: req.body.deleted_at,
         location: req.body.current_facility,
     });
     
+    // waitlist.coor_location = getLocation(waitlist.address, waitlist.address2, waitlist.city, waitlist.state, waitlist.zip);
     waitlist.pets = grabPets(req);
     console.log("New Waitlist object:", waitlist);
     waitlist

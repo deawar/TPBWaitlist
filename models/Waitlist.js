@@ -64,8 +64,8 @@ const WaitlistSchema = new Schema({
         required: true,
         min: 5,
     },
-    geocode: {
-        type: String
+    coor_location: {
+        type: String,
     },
     email: {
         type: String,
