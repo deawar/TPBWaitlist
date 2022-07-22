@@ -44,7 +44,9 @@ module.exports = function(passport) {
             console.error(err);
           });
         }
-      }).catch(error => window.alert('Please see your administrator for access.'))
+      }).catch(error => {
+        return done(null, false, { message:'Please see your administrator for access.' });
+      });
 
 
     })
