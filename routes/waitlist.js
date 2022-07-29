@@ -14,11 +14,13 @@ const Waitlist = require('../models/Waitlist');
 const hostname = os.hostname();
 
 // Geocode addresses of new customers
-async function getLocation(address, address2, city, state, zip){
-    const locationURL = `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?SingleLine=${address}, ${address2}, ${city}, ${state} ${zip},USA&category=&outFields=*&forStorage=false&f=json`
+//async function getLocation(address, address2, city, state, zip){
+function getLocation(address, address2, city, state, zip){
+const locationURL = `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?SingleLine=${address}, ${address2}, ${city}, ${state} ${zip},USA&category=&outFields=*&forStorage=false&f=json`
     console.log('locationURL: ', locationURL);
     //return await fetch(locationURL,
-    await fetch(locationURL,
+    //await fetch(locationURL,
+    fetch(locationURL,
     {
         method: "GET",
         headers: {
@@ -65,7 +67,7 @@ router.get('/displaywaitlist', ensureAuthenticated,(req, res) => {
                         email: doc.email,
                         phone_mobile: doc.phone_mobile,
                         phone_other: doc.phone_other,
-                        coor_location: doc.coor_location,
+                        geocode: doc.coor_location,
                         address: doc.address,
                         address2: doc.address2,
                         city: doc.city,
@@ -148,18 +150,6 @@ function grabPets(req) {
 
             }
         }
-        //pet.pets_species = req.body.petSpecies[i];
-        // pet.pets_name = req.body.petsNme[i];
-        // pet.pets_sex = req.body.petsSex+i;
-        // pet.pets_breed = req.body.petsBreed[i];
-        // pet.pets_age = req.body.petsAge[i];
-        // pet.pets_weight = req.body.petsWeight[i]    
-        //pets_species: req.body.petsSpecies,
-        //pets_name: req.body.petsName,
-        // pets_sex: req.body.petsSex,
-        // pets_breed: req.body.petsBreed,
-        // pets_age: req.body.petsAge,
-        // pets_weight: req.body.petsWeight
         pets.push(pet);
         pet = {};
         
@@ -172,48 +162,33 @@ function grabPets(req) {
 // Create New Waitlist objects
 router.post('/', ensureAuthenticated, (req, res, next) => {
     let pets= [];
-    // let pet = {};
-    // let len = req.body.petsNumber;
-    // for(let i=0; i < len; i++) {
-    //     //petsNumber: req.body.petsNumber,
-        
-    //     pet.pets_species = req.body.petSpecies[i];
-    //     pet.pets_name = req.body.petsNme[i];
-    //     pet.pets_sex = req.body.petsSex+i[i];
-    //     pet.pets_breed = req.body.petsBreed[i];
-    //     pet.pets_age = req.body.petsAge[i];
-    //     pet.pets_weight = req.body.petsWeight[i]    
-    //     //pets_species: req.body.petsSpecies,
-    //     //pets_name: req.body.petsName,
-    //     // pets_sex: req.body.petsSex,
-    //     // pets_breed: req.body.petsBreed,
-    //     // pets_age: req.body.petsAge,
-    //     // pets_weight: req.body.petsWeight
-    //     waitlist.pets.push(pet);
-    //     pet = {};
-    // };
-console.log(req.body);
+    console.log('------------------>req.body: ',req.body);
     const waitlist =  new Waitlist({
         _id: new mongoose.Types.ObjectId(),  
         customer: req.body.first_name + ' ' + req.body.last_name,
         phone_mobile: req.body.phone_mobile,
         phone_other: req.body.phone_other,
-        //coor_location: req.body.coor_location,
         address: req.body.address,
         address2: req.body.address2,
         city: req.body.city,
         state: req.body.state,
         zip: req.body.zip,
         email: req.body.email,
-        coor_location: req.body.coor_location,
+        geocode: req.body.geocode,
         // petsNumber: req.body.petsNumber,
         preferred_days: req.body.preferred_days,
         deleted_at: req.body.deleted_at,
         location: req.body.current_facility,
     });
     
-    // waitlist.coor_location = getLocation(waitlist.address, waitlist.address2, waitlist.city, waitlist.state, waitlist.zip);
     waitlist.pets = grabPets(req);
+    //let coor_location = getLocation(waitlist.address, waitlist.address2, waitlist.city, waitlist.state, waitlist.zip);
+    //waitlist.coor_location = getLocation(waitlist.address, waitlist.address2, waitlist.city, waitlist.state, waitlist.zip);
+    
+    // if(!waitlist.coor_location){
+    //     waitlist.coor_location = { coor_location : "empty object" };
+    // }
+    //console.log("Coordinates: ", waitlist.coor_location)
     console.log("New Waitlist object:", waitlist);
     waitlist
     .save()

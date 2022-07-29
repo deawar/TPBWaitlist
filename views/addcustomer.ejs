@@ -121,7 +121,7 @@
                     autocomplete="state" 
                     autofocus 
                     required 
-                    onChange="getLocation()";>
+                    oninput="getLocation()";>
                         <option value="" disabled selected>State...</option>
                         <option value="AL">Alabama</option>
                         <option value="AK">Alaska</option>
@@ -175,6 +175,18 @@
                         <option value="WI">Wisconsin</option>
                         <option value="WY">Wyoming</option>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label for="Geocode">Geocode for this address</label>
+                    <input 
+                        type="text"
+                        id="geocode"
+                        name="geocode"
+                        class="form-control"
+                        placeholder="x: coordinates, y: coordinates"                        
+                        value="<%= typeof geocode != 'undefined' ? geocode : '' %>"
+                        readonly
+                    />
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -284,37 +296,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script type="application/javascript" src="../js/addCustomerpage.js"></script>
 <script>
-    // Geocode addresses of new customers
-    
-    async function getLocation(){
-        //const currentForm = document.getElementById("newcustomer");
-        const address = document.getElementById("address").value();
-        const address2 = document.getElementById("address2").value();
-        const city = document.getElementById("city").value();
-        const state = document.getElementById("state").value();
-        const zip = document.getElementById("zip").value();
-        console.log('address: ',currentForm);
-        console.log('address parts: ', address, city, state, zip);
-        
-        const locationURL = `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?SingleLine=${address}, ${address2}, ${city}, ${state} ${zip},USA&category=&outFields=*&forStorage=false&f=json`
-        console.log('locationURL: ', locationURL);
-        //return await fetch(locationURL,
-        await fetch(locationURL,
-        {
-            method: "GET",
-            headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            },
-        })
-        .then((response) => response.json())
-        .then((responseData) => {
-            console.log("Before Return: ", responseData.candidates[0].location);
-            return responseData.candidates[0].location;
-        })
-        .catch(error => console.warn(error));
-    }; 
-    getLocation()
     // https://ricardometring.com/getting-the-value-of-a-select-in-javascript
     // Function to build divs for each pet including species, name, breed, sex, age and weight
     function update() {

@@ -604,7 +604,7 @@ router.post('/login', (req, res, next) => {
 });
 
 // Logout
-router.get('/logout', (req, res) => {
+router.get('/logout', (req, res) => { //https://forum.freecodecamp.org/t/logging-a-user-out-passport-logout-now-requires-a-callback-function/514755
   req.logout(function(err) {
     if (err) { return next(err); };
   req.flash('success_msg', 'You are logged out');

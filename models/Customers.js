@@ -64,7 +64,7 @@ const CustomersSchema = new Schema({
         min: 5,
     },
     geocode: {
-        type: String,
+        type: Object,
     },
     pets: [{
         petsName: {

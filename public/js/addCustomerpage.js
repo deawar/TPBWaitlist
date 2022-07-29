@@ -4,6 +4,11 @@ $(document).ready(function() {
 	$("#zip").keyup(function() {
 		let zip_in = $(this);
 		let zip_box = $('#zipbox');
+		let geocode = $('#geocode');
+		let address = $('#address');
+		let address2 = $('#address2');
+		let city = $('#city');
+		let state = $('#state');
 		console.log('Zip Code after zip_in:', zip_in.val())
 		if (zip_in.val().length < 5) {
 			zip_box.removeClass('error success');
@@ -25,6 +30,22 @@ $(document).ready(function() {
 					//$("#state").val(places['state']);
 					$("#state").val(places['state abbreviation']);
 					zip_box.addClass('success').removeClass('error');
+					const locationURL = `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?SingleLine=${address.val()}, ${address2.val()}, ${city.val()}, ${state.val()} ${zip_in.val()},USA&category=&outFields=*&forStorage=false&f=json`;
+					console.log('ArcGIS URL: ', locationURL);
+					$.ajax({
+						url: locationURL,
+						cache: false,
+						dataType: "json",
+						success: function(result, success) {
+							console.log('ajaax return:', result.candidates[0].location);
+							let coor_Location = JSON.stringify(result.candidates[0].location);
+							$(geocode).val(coor_Location);
+						},
+						error: function(result, success) {
+									geocode.removeClass('success').addClass('error');
+								}
+					});
+
 				},
 				error: function(result, success) {
 					zip_box.removeClass('success').addClass('error');

@@ -240,6 +240,35 @@
                     value="<%= typeof pets != 'undefined' ? pets : '' %>"
                 />
             </div>
+            <div class="form-group" id="allpets">
+                <label for="petsNumber">Number of Pets</label>
+                <select 
+                    type="number"
+                    id="petsNumber" 
+                    name="petsNumber"
+                    class="form-control"
+                    autofocus 
+                    autocomplete="petsNumber" 
+                    required
+                    onchange="update()";>
+                    <option value="" disabled selected>Total number of pets</option>
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>4</option>
+                    <option value=5>5</option>
+                    <option value=6>6</option>
+                    <option value=7>7</option>
+                    <option value=8>8</option>
+                    <option value=9>9</option>
+                    <option value=10>10</option>
+                    <option value=11>11</option>
+                    <option value=12>12</option>
+                    <option value=13>13</option>
+                    <option value=14>14</option>
+                    <option value=15>15</option>
+                </select>
+            <div id="Info"></div>
             <div class="form-group">
                 <label for="preferred_days">Preferred Days</label>
                 <select 
@@ -287,8 +316,10 @@
                     onChange="";>
                     <option value="" disabled selected>Location...</option>
                     <option value="TPB Trailer">TPB Trailer</option>
-                    <option value="TPB Van">TPB Van</option>
-                    <option value="TPB Kennel">TPB Kennel</option>
+                    <option value="TPB Van 1">TPB Van 1</option>
+                    <option value="TPB Van 2">TPB Van 2</option>
+                    <option value="TPB Van 3">TPB Van 3</option>
+                    <option value="TPB Van 4">TPB Van 4</option>
                   </select>
             </div>
             <!-- <button class="btn btn-primary btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Save Changes</button>
@@ -348,5 +379,133 @@
                 }
             });
 
-        })(document);   
+        })(document);
+    // https://ricardometring.com/getting-the-value-of-a-select-in-javascript
+    // Function to build divs for each pet including species, name, breed, sex, age and weight
+    function update() {
+        const currentForm = document.getElementById("newcustomer");
+        const startDiv = document.getElementById("allpets");
+        const select = document.getElementById("petsNumber");
+        const petvalue = parseInt(select.options[select.selectedIndex].value);
+        const allPetInfo = document.getElementById("Info");
+        const petInfo = {"petsSpecies":"Species of Pet-Dog/Cat", "petsName":"Pet's Name", "petsSex":"Pet's Gender", "petsBreed":"Pet's Breed-Beagle/Poodle", "petsAge":"Pet's Age in Years", "petsWeight":"Pet's Weight in Lbs."};
+        const hr = document.createElement("HR");
+        console.log({petvalue});
+
+        //Begin building pet divs
+        
+            for(let i=0; i < petvalue; i++) {
+                //Creates a div element for each pet
+                const petDiv = document.createElement('div');
+                petDiv.setAttribute('class', 'form-group');
+                petDiv.setAttribute('id', 'pet'+ i);
+                
+                //begin forEach
+                //petInfo.forEach(element => {
+                
+                console.log('Before for value Loop:', petvalue);
+                for (let value of Object.keys(petInfo)) {   
+                    console.log('in for (let value of Object.values(arr)) loop: ', value);
+                    
+                    
+                    console.log('value of for next i: ', i);
+                    let labelid = 'label'+ value + i;
+                    //petDiv.setAttribute('id', element+i);
+                    let iLabel = document.createElement('Label');
+                    if(value === 'petsSex'){
+                      // create div and labels for radio buttons
+                        const femDiv = document.createElement('div');
+                        const malDiv = document.createElement('div');
+                        const femLabel = document.createElement('Label');
+                        const malLabel = document.createElement('Label');
+                        const femInput = document.createElement('INPUT');
+                        const malInput = document.createElement('INPUT');
+
+                        // assign div class form-check, id 
+                        femDiv.setAttribute('class','form-check');
+                        femDiv.setAttribute('id','petsSex0f')
+                        malDiv.setAttribute('class','form-check');
+                        malDiv.setAttribute('id','petsSex0m')
+
+                        // assign label header
+                        iLabel.setAttribute('id', labelid);
+                        iLabel.setAttribute('for', value);
+                        //let iInput = document.createElement('INPUT');
+                        iLabel.setAttribute('class', 'form-check-label');
+                        
+                        // assign input as radio, give id of pet, name, class and value
+                        femInput.setAttribute('class', 'form-check-input');
+                        femInput.setAttribute('type', 'radio');
+                        femInput.setAttribute('id', i+value+'f');
+                        femInput.setAttribute('name', value+i);
+                        femInput.setAttribute('value', 'Female');
+                        femInput.setAttribute('autofocus', '');
+                        femLabel.setAttribute('class','form-check-label');
+                        femLabel.setAttribute('for', labelid);
+
+                        femLabel.innerHTML = `<b> Female</b>`;
+                        petDiv.appendChild(iLabel);
+                        petDiv.appendChild(femDiv);
+                        femDiv.appendChild(femInput);
+                        femDiv.appendChild(femLabel);
+
+                      // assign input as male label
+                        malInput.setAttribute('class', 'form-check-input');
+                        malInput.setAttribute('type', 'radio');
+                        malInput.setAttribute('id', i+value+'m');
+                        malInput.setAttribute('name', value+i);
+                        malInput.setAttribute('value', 'Male');
+                        malInput.setAttribute('autofocus', '');
+                        malLabel.setAttribute('class','form-check-label');
+                        malLabel.setAttribute('for', labelid);
+                        malLabel.innerHTML = `<b> Male</b>`;
+                        //petDiv.appendChild(iLabel);
+                        petDiv.appendChild(malDiv);
+                        malDiv.appendChild(malInput);
+                        malDiv.appendChild(malLabel);
+
+                    } else if(value === 'petsAge' || value === 'petsWeight'){
+                        iLabel.setAttribute('id', labelid);
+                        iLabel.setAttribute('for', value);
+                        let iInput = document.createElement('INPUT');
+                        iInput.setAttribute('type', 'number');
+                        iInput.setAttribute('id', i+value);
+                        iInput.setAttribute('name', value+i);
+                        iInput.setAttribute('placeholder', value);
+
+                        iInput.setAttribute('class', 'form-control');
+                        iInput.setAttribute('autofocus', '');
+                        petDiv.appendChild(iLabel);
+                        petDiv.appendChild(iInput);
+                    } else {
+                        iLabel.setAttribute('id', labelid);
+                        iLabel.setAttribute('for', value);
+                        let iInput = document.createElement('INPUT');
+                        iInput.setAttribute('type', 'text');
+                        iInput.setAttribute('id', i+value);
+                        iInput.setAttribute('name', value+i);
+                        iInput.setAttribute('placeholder', value);
+                        iInput.setAttribute('class', 'form-control');
+                        iInput.setAttribute('autofocus', '');
+                        petDiv.appendChild(iLabel);
+                        petDiv.appendChild(iInput);
+                    }
+                    //iLabel.setAttribute('for', element);
+
+                    console.log('petInfo.', value +  ' is ', petInfo[value]);
+                    iLabel.innerHTML = `<b> ${petInfo[value]}</b>`;
+                    if(value === 'petsAge') {
+                        petDiv.appendChild(hr);
+                    };
+                    
+                    
+                }; //forEach loop
+                allPetInfo.appendChild(petDiv);
+                console.log('i counter: ',i);
+                let setHR = document.getElementById('pet'+i);
+                console.log({setHR});
+                setHR.appendChild(hr);
+            }; //for i loop
+    };
+    update(); 
 </script>

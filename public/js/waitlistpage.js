@@ -57,6 +57,19 @@ $(document).ready(function() {
         return newDeleted_at;
     }   
     
+    //Fx to read Array object of pets
+    function displayPets(pets) {
+        let returnPets = [];        
+        (Object.keys(pets).forEach(key => {
+            //let cell = document.createElement('tr');
+            //let textNode = document.createTextNode(key);
+            returnPets.push(pets[key]);
+            let rPets = (`${pets[key].pets_name}, ${pets[key].pets_sex}, ${pets[key].pets_breed}, "Wt:",${pets[key].pets_weight}, "Age:",${pets[key].pets_age}`);
+            console.log(rPets);
+            return rPets;
+        }));
+    }
+
     // Build the waitlist html table
     function buildWaitlistTable(waitlist) {
         let tbl=$("<table/>").attr("id","wltable");
@@ -69,6 +82,7 @@ $(document).ready(function() {
             let id = waitlist.waitlists[i]["id"];
             let date = waitlist.waitlists[i]["date"];
             let dateAdded = true;
+            let pets = waitlist.waitlists[i]["pets"]
             //let inputDate = date.split("T");
             //usdate = inputDate[0].replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$2-$3-$1')
             usdate = displayDateTime (date, dateAdded)
@@ -82,6 +96,10 @@ $(document).ready(function() {
             let td6 = "<td>"+waitlist.waitlists[i]["city"]+"</td>";
             let td7 = "<td>"+waitlist.waitlists[i]["state"]+"</td>";
             let td8 = "<td>"+waitlist.waitlists[i]["zip"]+"</td>";
+            // (Object.keys(pets).forEach(key => {
+            //     let rPets = (`${pets[key].pets_name}, ${pets[key].pets_sex}, ${pets[key].pets_breed}, "Wt:",${pets[key].pets_weight}, "Age:",${pets[key].pets_age}`)
+            // }));
+            // let td9 = "<td>" + displayPets(pets) + "</td>";
             let td9 = "<td>"+waitlist.waitlists[i]["pets"][0]+"</td>";
             let td10 = "<td>"+waitlist.waitlists[i]["phone_mobile"]+"</td>";
             let td11 = "<td>"+waitlist.waitlists[i]["phone_other"]+"</td>";
