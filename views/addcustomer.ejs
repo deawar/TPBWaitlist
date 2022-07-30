@@ -1,10 +1,10 @@
-<% include ./partials/success-error-mess %>
-<% include ./partials/navbar.ejs %>
+<%- include('partials/success-error-mess.ejs') -%>
+<%- include('partials/navbar.ejs') -%>
 <div class="row mt-5">
     <div class="col-md-6 m-auto">
         <div class="card card-body border border-danger">
             <h1 class="text-center mb-3">New Waitlist Customer</h1>
-                <% include ./partials/messages %>
+                <%- include('partials/messages.ejs') -%>
         
             <form class="form" id="newcustomer" action="/waitlist/" method="POST">
                 <div class="form-group">
@@ -292,7 +292,7 @@
         </div>
     </div>
 </div>
-<% include ./partials/footer.ejs %>
+<%- include('partials/footer.ejs') -%>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script type="application/javascript" src="../js/addCustomerpage.js"></script>
 <script>

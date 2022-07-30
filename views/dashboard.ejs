@@ -1,12 +1,12 @@
-<% include ./partials/navbar.ejs %>
-<% include ./partials/success-error-mess %>
+<%- include('partials/navbar.ejs') -%>
+<%- include('partials/success-error-mess.ejs') -%>
 
 <div class="row mt-5">
     <div class="m-auto">
         <div class="card card-body border border-danger">
             <h1 class="text-center mb-3">Dashboard</h1>
-            <% include ./partials/success-error-mess %>
-            <% include ./partials/messages %>
+            <%- include('partials/success-error-mess.ejs') -%>
+            <%- include('partials/messages.ejs') -%>
             <p class="lead mb-3 text-center">Welcome <%= user.first_name %>!</p>
             <table class="table table-hover customers-list" id="wltable" style="width:100%">
                 <hr>
@@ -30,6 +30,9 @@
                     <tr>
                         <th>Customers for TPB Trailer</th>
                         <th>Customers for TPB Van 1</th>
+                        <th>Customers for TPB Van 2</th>
+                        <th>Customers for TPB Van 3</th>
+                        <th>Customers for TPB Van 4</th>
                     </tr>
                     <tr>
                         <td>
@@ -37,6 +40,15 @@
                         </td>
                         <td>
                             <span id="tpbvan1"></span>
+                        </td>
+                        <td>
+                            <span id="tpbvan2"></span>
+                        </td>
+                        <td>
+                            <span id="tpbvan3"></span>
+                        </td>
+                        <td>
+                            <span id="tpbvan4"></span>
                         </td>
                     </tr>
                 </tbody>
@@ -48,6 +60,6 @@
         </div>
     </div>
 </div>
-<% include ./partials/footer.ejs %>
+<%- include('partials/footer.ejs') -%>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="../js/dashboardpage.js"></script>

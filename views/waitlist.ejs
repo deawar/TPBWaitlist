@@ -1,10 +1,10 @@
-<% include ./partials/success-error-mess %>
-<% include ./partials/navbar.ejs %>
+<%- include('partials/success-error-mess.ejs') -%>
+<%- include('partials/navbar.ejs') -%>
 <div class="row mt-5">
     <div class="col-md-12 m-auto">
         <div class="card card-body border border-danger">
             <h1 class="text-center mb-6">Current Waitlist</h1>
-            <% include ./partials/messages %>
+            <%- include('partials/messages') -%>
             <div class="card card-body border border-danger">
                 <form class="d-flex col-md-8 m-auto" id="search-form" >
                     <input class="form-control me-sm-2 search-input" id="search-id" type="text" placeholder="Search..." data-table="customers-list">
@@ -338,7 +338,7 @@
     </div>
   </div>
 </div>
-<% include ./partials/footer.ejs %>
+<%- include('partials/footer.ejs') -%>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <script src="../js/waitlistpage.js"></script>
 <script>

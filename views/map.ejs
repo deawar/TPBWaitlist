@@ -1,4 +1,4 @@
-<% include ./partials/navbar.ejs %>
+<%- include('partials/navbar.ejs') -%>
 <body>
     <!-- <div id = "map" style = "width: 100%; height: 580px"> -->
     <div id = "viewDiv" style = "width: 100%; height: 580px">
@@ -7,7 +7,7 @@
     <button id="sign-in" class="btn btn-primary">Sign In</button>
     <button id="sign-out" class="btn btn-primary">Sign Out</button>
     <pre><code id="results"></code></pre>
-    <% include ./partials/messages %>
+    <%- include('partials/messages.ejs') -%>
     <script src="../js/newServiceArea.js"></script>
     <!-- <script src="../js/ArcGIS.js"></script> -->
 </body>
