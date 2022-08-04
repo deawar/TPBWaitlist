@@ -76,7 +76,7 @@ $(document).ready(function() {
             if(td12 === "TPB Trailer") {
                 tpbtrailer ++;
                 $("#tpbtrailer").html("Total: " + tpbtrailer);
-            } else if (td12 === "TPB Van 1") {
+            } else if (td12 === "TPB Van") {
                 tpbvan1 ++;
                 $("#tpbvan1").html("Total: " + tpbvan1);
             } else if (td12 === "TPB Van 2") {
