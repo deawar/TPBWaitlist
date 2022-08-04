@@ -54,12 +54,13 @@ router.get('/', ensureAuthenticated, (req, res) =>
 // API Get call that returns all waitlist items
 router.get('/displaywaitlist', ensureAuthenticated,(req, res) => {
     Waitlist.find()
-        .select('_id date customer first_name last_name phone_mobile phone_other address address2 city state zip email pets preferred_days location deleted_at')
+        .select('_id date customer first_name last_name phone_mobile phone_other address address2 city state zip geocode email pets preferred_days location deleted_at')
         .exec()
         .then(docs => {
             const response = { 
                 count: docs.length,
                 waitlists: docs.map(doc => {
+                    console.log("Raw Waitlist:",doc)
                     return {
                         id: doc._id,
                         date: doc.date,
@@ -67,12 +68,12 @@ router.get('/displaywaitlist', ensureAuthenticated,(req, res) => {
                         email: doc.email,
                         phone_mobile: doc.phone_mobile,
                         phone_other: doc.phone_other,
-                        geocode: doc.coor_location,
                         address: doc.address,
                         address2: doc.address2,
                         city: doc.city,
                         state: doc.state,
                         zip: doc.zip,
+                        geocode: doc.geocode,
                         pets: doc.pets,
                         preferred_days: doc.preferred_days,
                         location: doc.location,
@@ -175,7 +176,6 @@ router.post('/', ensureAuthenticated, (req, res, next) => {
         zip: req.body.zip,
         email: req.body.email,
         geocode: req.body.geocode,
-        // petsNumber: req.body.petsNumber,
         preferred_days: req.body.preferred_days,
         deleted_at: req.body.deleted_at,
         location: req.body.current_facility,
@@ -235,7 +235,7 @@ router.post('/', ensureAuthenticated, (req, res, next) => {
 router.get('/:waitlistId', ensureAuthenticated, (req, res, next) => {
     const id = req.params.waitlistId;
     Waitlist.findById(id)
-    .select('_id customer first_name last_name phone_mobile phone_other address address2 city state zip email pets preferred_days deleted_at location date')
+    .select('_id customer first_name last_name phone_mobile phone_other address address2 city state zip geocode email pets preferred_days deleted_at location date')
     .exec()
     .then(doc => {
         console.log("From the DB: ", doc);

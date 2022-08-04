@@ -28,6 +28,7 @@
                         <th scope="col">City</th>
                         <th scope="col">State</th>
                         <th scope="col">Zip Code</th>
+                        <th scope="col">Geocode</th>
                         <th scope="col">Pets</th>
                         <th scope="col">Mobile Phone</th>
                         <th scope="col">Other Phone</th>
@@ -211,6 +212,18 @@
                     <option value="WI">Wisconsin</option>
                     <option value="WY">Wyoming</option>
                 </select>
+            </div>
+            <div class="form-group">
+                <label for="Geocode">Geocode for this address</label>
+                <input 
+                    type="text"
+                    id="geocode"
+                    name="geocode"
+                    class="form-control"
+                    placeholder="x: coordinates, y: coordinates"                        
+                    value="<%= typeof geocode != 'undefined' ? geocode : '' %>"
+                    readonly
+                />
             </div>
             <div class="form-group">
                 <label for="email">Email</label>

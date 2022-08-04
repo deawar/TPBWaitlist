@@ -5,36 +5,57 @@ $(document).ready(function() {
 
     // Sourced from https://discourse.webflow.com/t/auto-detecting-city-from-zip-code-entry-in-a-form-field/156760
     $("#zip").keyup(function() {
-        let zip_in = $(this);
-        let zip_box = $('#zipbox');
-        console.log('Zip Code after zip_in:', zip_in.val())
-        if (zip_in.val().length < 5) {
-            zip_box.removeClass('error success');
-        } else if (zip_in.val().length > 5) {
-            zip_box.addClass('error').removeClass('success');
-        } else if(zip_in.val().length === 5) {
-            
-            // Make HTTP request
-            $.ajax({
-                url: "https://api.zippopotam.us/us/" + zip_in.val(),
-                cache: false,
-                dataType: "json",
-                type: "GET",
-                success: function(result, success) {
-                    // US Zip Code Records Officially Map to only 1 Primary Location
-                    places = result['places'][0];
-                    console.log('places:',places);
-                    $("#city").val(places['place name']);
-                    //$("#state").val(places['state']);
-                    $("#state").val(places['state abbreviation']);
-                    zip_box.addClass('success').removeClass('error');
-                },
-                error: function(result, success) {
-                    zip_box.removeClass('success').addClass('error');
-                }
-            });
-        }
-    });
+		let zip_in = $(this);
+		let zip_box = $('#zipbox');
+		let geocode = $('#geocode');
+		let address = $('#address');
+		let address2 = $('#address2');
+		let city = $('#city');
+		let state = $('#state');
+		console.log('Zip Code after zip_in:', zip_in.val())
+		if (zip_in.val().length < 5) {
+			zip_box.removeClass('error success');
+		} else if (zip_in.val().length > 5) {
+			zip_box.addClass('error').removeClass('success');
+		} else if(zip_in.val().length === 5) {
+			
+			// Make HTTP request
+			$.ajax({
+				url: "https://api.zippopotam.us/us/" + zip_in.val(),
+				cache: false,
+				dataType: "json",
+				type: "GET",
+				success: function(result, success) {
+					// US Zip Code Records Officially Map to only 1 Primary Location
+					places = result['places'][0];
+					console.log('places:',places);
+					$("#city").val(places['place name']);
+					//$("#state").val(places['state']);
+					$("#state").val(places['state abbreviation']);
+					zip_box.addClass('success').removeClass('error');
+					const locationURL = `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?SingleLine=${address.val()}, ${address2.val()}, ${city.val()}, ${state.val()} ${zip_in.val()},USA&category=&outFields=*&forStorage=false&f=json`;
+					console.log('ArcGIS URL: ', locationURL);
+					$.ajax({
+						url: locationURL,
+						cache: false,
+						dataType: "json",
+						success: function(result, success) {
+							console.log('ajaax return:', result.candidates[0].location);
+							let coor_Location = JSON.stringify(result.candidates[0].location);
+							$(geocode).val(coor_Location);
+						},
+						error: function(result, success) {
+									geocode.removeClass('success').addClass('error');
+								}
+					});
+
+				},
+				error: function(result, success) {
+					zip_box.removeClass('success').addClass('error');
+				}
+			});
+		}
+	});
 
     //Fx to display timestamps the way we want
     function displayDateTime(date, AddorDel) {
@@ -65,7 +86,7 @@ $(document).ready(function() {
             //let textNode = document.createTextNode(key);
             returnPets.push(pets[key]);
             let rPets = (`${pets[key].pets_name}, ${pets[key].pets_sex}, ${pets[key].pets_breed}, "Wt:",${pets[key].pets_weight}, "Age:",${pets[key].pets_age}`);
-            console.log(rPets);
+            console.log("rPets:", rPets);
             return rPets;
         }));
     }
@@ -82,7 +103,10 @@ $(document).ready(function() {
             let id = waitlist.waitlists[i]["id"];
             let date = waitlist.waitlists[i]["date"];
             let dateAdded = true;
-            let pets = waitlist.waitlists[i]["pets"]
+            let pets = waitlist.waitlists[i]["pets"];
+            let geocode = JSON.stringify(waitlist.waitlists[i]["geocode"]);
+            //console.log("index:", i, "geocode pulled from db:", JSON.parse(geocode));
+            console.log("waitlist:", waitlist.waitlists[i]);
             //let inputDate = date.split("T");
             //usdate = inputDate[0].replace(/(\d{4})\-(\d{2})\-(\d{2}).*/, '$2-$3-$1')
             usdate = displayDateTime (date, dateAdded)
@@ -96,23 +120,24 @@ $(document).ready(function() {
             let td6 = "<td>"+waitlist.waitlists[i]["city"]+"</td>";
             let td7 = "<td>"+waitlist.waitlists[i]["state"]+"</td>";
             let td8 = "<td>"+waitlist.waitlists[i]["zip"]+"</td>";
+            let td9 = "<td>"+geocode+"</td>";
             // (Object.keys(pets).forEach(key => {
             //     let rPets = (`${pets[key].pets_name}, ${pets[key].pets_sex}, ${pets[key].pets_breed}, "Wt:",${pets[key].pets_weight}, "Age:",${pets[key].pets_age}`)
             // }));
-            // let td9 = "<td>" + displayPets(pets) + "</td>";
-            let td9 = "<td>"+waitlist.waitlists[i]["pets"][0]+"</td>";
-            let td10 = "<td>"+waitlist.waitlists[i]["phone_mobile"]+"</td>";
-            let td11 = "<td>"+waitlist.waitlists[i]["phone_other"]+"</td>";
-            let td12 = "<td>"+waitlist.waitlists[i]["location"]+"</td>";
-            let td13 = "<td>"+waitlist.waitlists[i]["preferred_days"][0]+"</td>";
+            let td10 = "<td>" + displayPets(pets) + "</td>";
+            //let td9 = "<td>"+waitlist.waitlists[i]["pets"][0]+"</td>";
+            let td11 = "<td>"+waitlist.waitlists[i]["phone_mobile"]+"</td>";
+            let td12 = "<td>"+waitlist.waitlists[i]["phone_other"]+"</td>";
+            let td13 = "<td>"+waitlist.waitlists[i]["location"]+"</td>";
+            let td14 = "<td>"+waitlist.waitlists[i]["preferred_days"][0]+"</td>";
             let delatDate = waitlist.waitlists[i]["deleted_at"];
             let dateDeleted = false;
             delDate = displayDateTime (delatDate, dateDeleted)
             // let td14 = "<td>"+waitlist.waitlists[i]["deleted_at"]+"</td>";
-            let td14 = "<td>" + delDate + "</td>";
-            let td15 = "<td>"+waitlist.waitlists[i]["email"]+"</td></tr>";
+            let td15 = "<td>" + delDate + "</td>";
+            let td16 = "<td>"+waitlist.waitlists[i]["email"]+"</td></tr>";
 
-            $("#wltable").append(tr+td1+td2+td3+td4+td5+td6+td7+td8+td9+td10+td11+td12+td13+td14+td15); 
+            $("#wltable").append(tr+td1+td2+td3+td4+td5+td6+td7+td8+td9+td10+td11+td12+td13+td14+td15+td16); 
             shown ++;
             $("#count").html("Count: " + shown);
         }
@@ -224,6 +249,11 @@ $(document).ready(function() {
             } else {
                 FormObject.elements['zip'].value = waitlist.waitlists[editIndex].zip;
             };
+            if (waitlist.waitlists[editIndex].geocode === undefined) {
+                FormObject.elements['geocode'].value = "";
+            } else {
+                FormObject.elements['geocode'].value = waitlist.waitlists[editIndex].geocode;
+            };
             if (waitlist.waitlists[editIndex].email === undefined) {
                 FormObject.elements['email'].value = "";
             } else {
@@ -275,6 +305,7 @@ $(document).ready(function() {
                 let state = FormObject.elements['state'].value;
                 console.log ('New State:',state);
                 let zip = FormObject.elements['zip'].value;
+                let geocode = FormObject.elements['geocode'].value;
                 let email = FormObject.elements['email'].value;
                 let pets = FormObject.elements['pets'].value;
                 let deleted_at = FormObject.elements['deleted_at'].value;

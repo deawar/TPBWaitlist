@@ -31,6 +31,9 @@ $(document).ready(function() {
         let addedToApp = 0; // Current number of entries added to App and "Deleted" from Waitlist
         let tpbtrailer = 0; // Current count on waitlist for TPB Trailer
         let tpbvan1 = 0; // Current count on waitlist for TPB Van1
+        let tpbvan2 = 0; // Current count on waitlist for TPB Van2
+        let tpbvan3 = 0; // Current count on waitlist for TPB Van3
+        let tpbvan4 = 0; // Current count on waitlist for TPB Van4
         console.log("waitlist.count:",waitlist.count); // TODO: remove console.log
         $("#div1").append(tbl);
         for(let i=0;i<waitlist.count;i++)
@@ -62,21 +65,29 @@ $(document).ready(function() {
             // let td15 = "<td>"+waitlist.waitlists[i]["email"]+"</td></tr>";
             //if(delatDate.length > 0 && (delatDate != null|| delatDate != undefined)) {
             if(delatDate != null|| delatDate != undefined) {
-                console.log("deleted: ", delatDate) // TODO remove console.log 
+                //console.log("deleted: ", delatDate) // TODO remove console.log 
                 addedToApp ++;
                 $("#deleted").html("Total: " + addedToApp);
             }
             // $("#wltable").append(tr); 
             shown ++;
             $("#count").html("Total: " + shown);
-
             // Count for location TPB Trailer
             if(td12 === "TPB Trailer") {
                 tpbtrailer ++;
                 $("#tpbtrailer").html("Total: " + tpbtrailer);
-            } else if (td12 === "TPB Van") {
+            } else if (td12 === "TPB Van 1") {
                 tpbvan1 ++;
                 $("#tpbvan1").html("Total: " + tpbvan1);
+            } else if (td12 === "TPB Van 2") {
+                tpbvan2 ++;
+                $("#tpbvan2").html("Total: " + tpbvan2);
+            } else if (td12 === "TPB Van 3") {
+                tpbvan3 ++;
+                $("#tpbvan3").html("Total: " + tpbvan3);
+            } else if (td12 === "TPB Van 4") {
+                tpbvan4 ++;
+                $("#tpbvan4").html("Total: " + tpbvan4);
             }
         }
     }
